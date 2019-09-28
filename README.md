@@ -10,7 +10,7 @@ The project was generated using Angular 7 with routing option and SCSS option as
 
 These modules should be added on top of the standard angular installation:
 
-`npm install angular-split`
+`npm install angular-split` [Documentation](https://bertrandg.github.io/angular-split/#/documentation)
 
 ## Development server
 
