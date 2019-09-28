@@ -2,6 +2,75 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.6.
 
+Example of the working ThreeJS application can be found at https://www.meercad.com/Robots/robot.html
+
+## Challenge
+
+The ultimate task is to create configurable machine (aka robot) simulation software with fast inverse
+solution.
+
+Explanation of the controls of the live JavaScript prototype application for the 
+[Kuka](https://www.kuka.com) KR300 robot.
+
+![Kuka robot KR300](images/KR300InverseSolutionPrototype.png "Main screen for the KR300 robot with inverse
+solution")
+
+Lighting settings from the ThreeJS example.
+
+![Lighting settings](images/KR300LightingSettings.png)
+
+KR300 forward solution controls. This is a simple bit. Forward controls are specifying positions of
+the machine (robot) and the final position of the effector (used to perform useful action). Changing any
+of the axis coordinate will move machine to the specified location,.. but how we will know, what axes
+coordinates should be so effector will be in the required position?
+
+![KR300 forward solution controls](images/KR300ForwardSolutionControls.png)
+
+This is a difficult part, which is called [Inverse kinematics](https://en.wikipedia.org/wiki/Inverse_kinematics).
+
+The problem is that with arbitrary number of the axes there can be multiple inverse solutions. And
+there can be a nasty problems like ... [**Singularities**](https://en.wikipedia.org/wiki/Robot_kinematics).
+
+Those controls are for the Inverse Kinematics solution for the KR300 robot with the linear axis.
+
+![KR300 Inverse kinematiks controls](images/KR300InverseKinematicsControls.png)
+
+When *Enable position* checkbox is checked in, the robot effector will follow the coordinates and
+the vector specified by those controls. Forward solution will be disabled in this case.
+
+## Future
+
+This is a [Random kinematic chain](https://www.meercad.com/Monster/Monster.html) prototype. JavaScript 
+and ThreeJS based live example to generate multiple *random* robots and provide Inverse
+solution for them.
+
+![Random robot generator](images/RandomRobotGenerator.png)
+
+The robots are created using random value generator and they all follow the ball. The controls are:
+
+![Effector positon](images/RandomRobotEffectorPosition.png)
+
+Those set a position of the end effector, which robots should achieve..., *if they can*.
+
+Contols to set maximum number of arms and maximum number of joints (actual values are randomly selected):
+
+![Random robotic chains configuration](images/RobotsConfiguration.png)
+
+Shown number of arms is limited to 50 parallel arms and 200 degrees of freedom. JavaScript
+can't do more. C++ implementation worked with more than 1000 degrees of freedom.
+
+## Coming
+
+This project is to provide an experimental interface for the C++ application with built-in Chromium
+browser.
+
+This last example is a bit messy. It is a work in progress. It shows C++ application, which can read
+machine configuration, has built-in [Chromium browser](https://en.wikipedia.org/wiki/Chromium_Embedded_Framework)
+with JavaScript interface, [Ogre3D](https://en.wikipedia.org/wiki/OGRE) as a graphics system,
+command line interface (custom and Python) and Angular sample application running.
+
+![Work in progress](images/WorkInProgress.png)
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
