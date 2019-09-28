@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Angular CLI settings
 
-The project was generated using Angular 7 with routing option and SCSS option as a style sheet.
+The project was generated using Angular 7 with routing option and [SCSS](https://sass-lang.com/documentation) option as a style sheet.
 
 ## Additional modules
 
