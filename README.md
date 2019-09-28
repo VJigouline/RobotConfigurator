@@ -1,10 +1,7 @@
 # RobotConfigurator
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.6.
-
-## Angular CLI settings
-
-The project was generated using routing option and [SCSS](https://sass-lang.com/documentation) option as a style sheet.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.6.  
+Project options: routing and [SCSS](https://sass-lang.com/documentation) as a style sheet.
 
 ## Additional modules
 
