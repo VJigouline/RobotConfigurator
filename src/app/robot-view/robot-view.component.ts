@@ -18,12 +18,10 @@ export class RobotViewComponent implements OnInit {
   private floorMat: THREE.MeshStandardMaterial;
   private renderer: THREE.WebGLRenderer;
   private controls: OrbitControls;
-  @Input() animate: () => void;
 
   constructor() { }
 
   ngOnInit() {
-    this.animate = this.Animate;
     this.InitialiseCamera();
     this.InitialiseScene();
 
@@ -118,8 +116,8 @@ export class RobotViewComponent implements OnInit {
   }
 
   private Animate(): void {
-    //console.log('Animate called.');
-    requestAnimationFrame(this.animate.bind(this));
+    // console.log('Animate called.');
+    // requestAnimationFrame(this.Animate.bind(this));
     this.Render();
   }
 

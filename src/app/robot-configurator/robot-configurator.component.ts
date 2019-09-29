@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-robot-configurator',
@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./robot-configurator.component.scss']
 })
 export class RobotConfiguratorComponent implements OnInit {
+
+  @Input() Width: number;
+  @Input() Height: number;
 
   constructor() { }
 
