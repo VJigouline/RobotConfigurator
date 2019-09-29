@@ -1,7 +1,6 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Output, Input } from '@angular/core';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { StereoEffect } from 'three/examples/js/effects/StereoEffect';
 
 @Component({
   selector: 'app-robot-view',
@@ -17,18 +16,21 @@ export class RobotViewComponent implements OnInit {
   private camera: THREE.Camera;
   private hemiLight: THREE.HemisphereLight;
   private floorMat: THREE.MeshStandardMaterial;
-  private effect: StereoEffect;
   private renderer: THREE.WebGLRenderer;
   private controls: OrbitControls;
+  @Input() animate: () => void;
 
   constructor() { }
 
   ngOnInit() {
+    this.animate = this.Animate;
     this.InitialiseCamera();
     this.InitialiseScene();
+
+    this.Animate();
   }
 
-  InitialiseScene(): void {
+  private InitialiseScene(): void {
     this.scene = new THREE.Scene();
 
     this.hemiLight = new THREE.HemisphereLight( 0xddeeff, 0x0f0e0d);
@@ -53,7 +55,7 @@ export class RobotViewComponent implements OnInit {
       bumpScale: 0.5
     });
     const textureLoader = new THREE.TextureLoader();
-    let texture = textureLoader.load( 'assets/textures/hardwood2_diffuse.jpg', function( map ) {
+    let texture = textureLoader.load( 'assets/textures/hardwood2_diffuse.jpg', map => {
       map.wrapS = THREE.RepeatWrapping;
       map.wrapT = THREE.RepeatWrapping;
       map.anisotropy = 4;
@@ -61,7 +63,7 @@ export class RobotViewComponent implements OnInit {
     } );
     this.floorMat.map = texture;
     this.floorMat.needsUpdate = true;
-    texture = textureLoader.load( 'assets/textures/hardwood2_bump.jpg', function( map ) {
+    texture = textureLoader.load( 'assets/textures/hardwood2_bump.jpg', map => {
       map.wrapS = THREE.RepeatWrapping;
       map.wrapT = THREE.RepeatWrapping;
       map.anisotropy = 4;
@@ -69,7 +71,7 @@ export class RobotViewComponent implements OnInit {
     } );
     this.floorMat.bumpMap = texture;
     this.floorMat.needsUpdate = true;
-    texture = textureLoader.load( 'assets/textures/hardwood2_roughness.jpg', function( map ) {
+    texture = textureLoader.load( 'assets/textures/hardwood2_roughness.jpg', map => {
       map.wrapS = THREE.RepeatWrapping;
       map.wrapT = THREE.RepeatWrapping;
       map.anisotropy = 4;
@@ -94,7 +96,7 @@ export class RobotViewComponent implements OnInit {
     this.renderer.toneMapping = THREE.ReinhardToneMapping;
     this.renderer.setPixelRatio( window.devicePixelRatio );
     this.renderer.setSize( window.innerWidth, window.innerHeight );
-    this.renderer.setClearColor(0x00ddff, 1);
+    this.renderer.setClearColor(0xbbeeff, 1);
     this.container.nativeElement.appendChild( this.renderer.domElement );
 
 
@@ -102,19 +104,27 @@ export class RobotViewComponent implements OnInit {
 
     // window.addEventListener( 'resize', onWindowResize, false );
 
-    // this.effect = new StereoEffect( this.renderer );
-    // this.effect.setSize( window.innerWidth, window.innerHeight );
-
     this.camera.lookAt(this.scene.position);
 
   }
 
-  InitialiseCamera(): void {
+  private InitialiseCamera(): void {
     this.camera = new THREE.OrthographicCamera( -this.container.nativeElement.offsetWidth * 5,
       this.container.nativeElement.offsetWidth * 5,
       this.container.nativeElement.offsetHeight * 5,
       -this.container.nativeElement.offsetHeight * 5, 1, 100000 );
     this.camera.position.y = -10000;
     this.camera.position.z = 1;
+  }
+
+  private Animate(): void {
+    //console.log('Animate called.');
+    requestAnimationFrame(this.animate.bind(this));
+    this.Render();
+  }
+
+  private Render(): void {
+
+    this.renderer.render(this.scene, this.camera);
   }
 }
