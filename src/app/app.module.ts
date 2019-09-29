@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AngularSplitModule } from 'angular-split';
+import { AngularResizedEventModule } from 'angular-resize-event';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,7 +19,8 @@ import { RobotEditorComponent } from './robot-editor/robot-editor.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AngularSplitModule.forRoot()
+    AngularSplitModule.forRoot(),
+    AngularResizedEventModule
   ],
   providers: [],
   bootstrap: [AppComponent]

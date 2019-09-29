@@ -1,4 +1,4 @@
-<div [style.width.px]="Width" [style.height.px]="Height">
+<div [style.width.px]="Width" [style.height.px]="Height" (onresize)="OnResize()">
     <as-split direction="horizontal">
         <as-split-area size="80">
         <app-robot-view></app-robot-view>

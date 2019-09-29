@@ -1,4 +1,5 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Output, Input } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { ResizedEvent } from 'angular-resize-event';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
@@ -7,7 +8,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
   templateUrl: './robot-view.component.html',
   styleUrls: ['./robot-view.component.scss']
 })
-export class RobotViewComponent implements OnInit {
+export class RobotViewComponent implements OnInit, AfterViewInit {
 
   @ViewChild('container', { static: true })
   container: ElementRef;
@@ -22,10 +23,19 @@ export class RobotViewComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
     this.InitialiseCamera();
     this.InitialiseScene();
 
     this.Animate();
+  }
+
+  private onResized(event: ResizedEvent): void {
+  //  console.log(`OnResize. New width: ${event.newWidth}, new height: ${event.newHeight}`);
+    this.renderer.setSize( event.newWidth, event.newHeight );
+    this.Render();
   }
 
   private InitialiseScene(): void {
@@ -93,10 +103,8 @@ export class RobotViewComponent implements OnInit {
     this.renderer.shadowMap.enabled = true;
     this.renderer.toneMapping = THREE.ReinhardToneMapping;
     this.renderer.setPixelRatio( window.devicePixelRatio );
-    this.renderer.setSize( window.innerWidth, window.innerHeight );
     this.renderer.setClearColor(0xbbeeff, 1);
     this.container.nativeElement.appendChild( this.renderer.domElement );
-
 
     this.controls = new OrbitControls( this.camera, this.renderer.domElement );
 
