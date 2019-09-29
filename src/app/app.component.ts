@@ -21,6 +21,6 @@ export class AppComponent implements OnInit {
     // console.log(`Width: ${window.innerWidth}, Height: ${window.innerHeight}`);
     this.Width = window.innerWidth;
     this.Height = window.innerHeight;
-    // console.log(`Width: ${this.Width}, Height: ${this.Height}`);
+    console.log(`Width: ${this.Width}, Height: ${this.Height}`);
   }
 }
