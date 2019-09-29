@@ -13,13 +13,13 @@ export class RobotViewComponent implements OnInit {
   @ViewChild('container', { static: true })
   container: ElementRef;
 
-  scene: THREE.Scene;
-  camera: THREE.Camera;
-  hemiLight: THREE.HemisphereLight;
-  floorMat: THREE.MeshStandardMaterial;
-  effect: StereoEffect;
-  renderer: THREE.WebGLRenderer;
-  controls: OrbitControls;
+  private scene: THREE.Scene;
+  private camera: THREE.Camera;
+  private hemiLight: THREE.HemisphereLight;
+  private floorMat: THREE.MeshStandardMaterial;
+  private effect: StereoEffect;
+  private renderer: THREE.WebGLRenderer;
+  private controls: OrbitControls;
 
   constructor() { }
 
@@ -53,30 +53,30 @@ export class RobotViewComponent implements OnInit {
       bumpScale: 0.5
     });
     const textureLoader = new THREE.TextureLoader();
-    textureLoader.load( 'assets/textures/hardwood2_diffuse.jpg', function( map ) {
+    let texture = textureLoader.load( 'assets/textures/hardwood2_diffuse.jpg', function( map ) {
       map.wrapS = THREE.RepeatWrapping;
       map.wrapT = THREE.RepeatWrapping;
       map.anisotropy = 4;
       map.repeat.set( 4, 9.6 );
-      this.floorMat.map = map;
-      this.floorMat.needsUpdate = true;
     } );
-    textureLoader.load( 'assets/textures/hardwood2_bump.jpg', function( map ) {
+    this.floorMat.map = texture;
+    this.floorMat.needsUpdate = true;
+    texture = textureLoader.load( 'assets/textures/hardwood2_bump.jpg', function( map ) {
       map.wrapS = THREE.RepeatWrapping;
       map.wrapT = THREE.RepeatWrapping;
       map.anisotropy = 4;
       map.repeat.set( 4, 9.6 );
-      this.floorMat.bumpMap = map;
-      this.floorMat.needsUpdate = true;
     } );
-    textureLoader.load( 'assets/textures/hardwood2_roughness.jpg', function( map ) {
+    this.floorMat.bumpMap = texture;
+    this.floorMat.needsUpdate = true;
+    texture = textureLoader.load( 'assets/textures/hardwood2_roughness.jpg', function( map ) {
       map.wrapS = THREE.RepeatWrapping;
       map.wrapT = THREE.RepeatWrapping;
       map.anisotropy = 4;
       map.repeat.set( 4, 9.6 );
-      this.floorMat.roughnessMap = map;
-      this.floorMat.needsUpdate = true;
     } );
+    this.floorMat.roughnessMap = texture;
+    this.floorMat.needsUpdate = true;
 
     const floorGeometry = new THREE.PlaneBufferGeometry( 11000, 10000 );
     const floorMesh = new THREE.Mesh( floorGeometry, this.floorMat );
