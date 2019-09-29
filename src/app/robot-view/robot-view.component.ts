@@ -38,6 +38,11 @@ export class RobotViewComponent implements OnInit, AfterViewInit {
     this.Render();
   }
 
+  private onMouseOver(event: MouseEvent): void {
+    // console.log(`Mouse event`);
+    this.Render();
+  }
+
   private InitialiseScene(): void {
     this.scene = new THREE.Scene();
 
