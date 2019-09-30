@@ -9,12 +9,11 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
   styleUrls: ['./robot-view.component.scss']
 })
 export class RobotViewComponent implements OnInit, AfterViewInit {
-
   @ViewChild('container', { static: true })
   container: ElementRef;
 
   private scene: THREE.Scene;
-  private camera: THREE.Camera;
+  private camera: THREE.OrthographicCamera;
   private hemiLight: THREE.HemisphereLight;
   private floorMat: THREE.MeshStandardMaterial;
   private renderer: THREE.WebGLRenderer;
@@ -34,12 +33,17 @@ export class RobotViewComponent implements OnInit, AfterViewInit {
 
   private onResized(event: ResizedEvent): void {
   //  console.log(`OnResize. New width: ${event.newWidth}, new height: ${event.newHeight}`);
-    this.renderer.setSize( event.newWidth, event.newHeight );
+    this.renderer.setSize(event.newWidth, event.newHeight);
+    this.setCameraSize(event.newWidth, event.newHeight);
     this.Render();
   }
 
   private onMouseOver(event: MouseEvent): void {
     // console.log(`Mouse event`);
+    this.Render();
+  }
+
+  private onOrbitControlEnd(): void {
     this.Render();
   }
 
@@ -112,6 +116,8 @@ export class RobotViewComponent implements OnInit, AfterViewInit {
     this.container.nativeElement.appendChild( this.renderer.domElement );
 
     this.controls = new OrbitControls( this.camera, this.renderer.domElement );
+    // OrbitControl prevents wheel event bubbling. This settings is to redraw after zoom.
+    this.controls.addEventListener('end', this.onOrbitControlEnd.bind(this));
 
     // window.addEventListener( 'resize', onWindowResize, false );
 
@@ -138,4 +144,15 @@ export class RobotViewComponent implements OnInit, AfterViewInit {
 
     this.renderer.render(this.scene, this.camera);
   }
+
+  private setCameraSize(width: number, height: number): void {
+    const aspect = width / height;
+    const w = this.camera.right - this.camera.left;
+    const h = this.camera.top - this.camera.bottom;
+    this.camera.left = -width * 5;
+    this.camera.right = width * 5;
+    this.camera.bottom = -height * 5;
+    this.camera.top = height * 5;
+    this.camera.updateProjectionMatrix();
+   }
 }
