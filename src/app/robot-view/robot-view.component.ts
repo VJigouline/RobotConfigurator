@@ -118,6 +118,7 @@ export class RobotViewComponent implements OnInit, AfterViewInit {
     this.controls = new OrbitControls( this.camera, this.renderer.domElement );
     // OrbitControl prevents wheel event bubbling. This settings is to redraw after zoom.
     this.controls.addEventListener('end', this.onOrbitControlEnd.bind(this));
+    this.controls.screenSpacePanning = true;
 
     // window.addEventListener( 'resize', onWindowResize, false );
 
