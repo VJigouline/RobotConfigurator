@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { RobotConfiguratorComponent } from './robot-configurator/robot-configurator.component';
 import { RobotViewComponent } from './robot-view/robot-view.component';
 import { RobotEditorComponent } from './robot-editor/robot-editor.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { RobotEditorComponent } from './robot-editor/robot-editor.component';
     BrowserModule,
     AppRoutingModule,
     AngularSplitModule.forRoot(),
-    AngularResizedEventModule
+    AngularResizedEventModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
