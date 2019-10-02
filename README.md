@@ -1,6 +1,9 @@
 # RobotConfigurator
 
-[Edit on StackBlitz ⚡️](https://stackblitz.com/github/VJigouline/RobotConfigurator)
+*Robot configuration editor.*
+
+[Edit on StackBlitz ⚡️](https://stackblitz.com/github/VJigouline/RobotConfigurator)  
+[Angular documentation]([AngularPrototype](https://angular.io/docs))
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.6.  
 Project options: routing and [SCSS](https://sass-lang.com/documentation) as a style sheet.
