@@ -14,7 +14,7 @@ export class RobotConfiguratorComponent implements OnInit, AfterViewInit {
   RobotViewHeight = 100;
   RobotViewWidth = 100;
 
-  @ViewChild('RobotView', { static: false })
+  @ViewChild('RobotView')
   private robotView: ElementRef;
 
   constructor() { }
