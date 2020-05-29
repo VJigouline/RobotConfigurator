@@ -6,7 +6,6 @@ import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader';
-import { reject } from 'q';
 import { Light } from './lights/light';
 import { Lights } from './lights/lights';
 import { LightsLibraryService } from './lights/lights-library.service';
@@ -245,7 +244,7 @@ export class ThreeSceneService {
 
       // blobURLs.forEach(URL.revokeObjectURL);
       finished();
-    }, undefined, reject);
+    });
   }
 
   public addGLTFFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
@@ -322,7 +321,7 @@ export class ThreeSceneService {
 
       blobURLs.forEach(URL.revokeObjectURL);
       finished();
-    }, undefined, reject);
+    });
   }
 
   // This is to avoid lint error.

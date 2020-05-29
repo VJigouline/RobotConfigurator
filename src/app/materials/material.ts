@@ -521,8 +521,8 @@ export class Material {
     public set toneMapped(value: boolean) { this.material.toneMapped = value; }
     public get transparent(): boolean { return this.material.transparent; }
     public set transparent(value: boolean) { this.material.transparent = value; }
-    public get vertexColors(): THREE.Colors { return this.material.vertexColors; }
-    public set vertexColors(value: THREE.Colors) { this.material.vertexColors = value; }
+    public get vertexColors(): boolean { return this.material.vertexColors; }
+    public set vertexColors(value: boolean) { this.material.vertexColors = value; }
     public get visible(): boolean { return this.material.visible; }
     public set visible(value: boolean) { this.material.visible = value; }
 

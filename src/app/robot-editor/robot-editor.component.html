@@ -1,0 +1,28 @@
+<div [style.width.px]="Width" [style.height]="'100%'" (resized)="onResized($event)">
+    <as-split direction="horizontal">
+        <as-split-area size="79">
+            <ngx-file-drop 
+            [dropZoneClassName]="'scene-dropzone-content'"
+            [contentClassName]="'scene-dropzone-content'"
+                (onFileDrop)="dropped($event)" 
+                (onFileOver)="fileOver($event)" 
+                (onFileLeave)="fileLeave($event)">
+                <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                        <app-scene-view #ThreeJSView [AreaWidth]="Width" [AreaHeight]="Height"></app-scene-view>
+                </ng-template>
+            </ngx-file-drop>
+        </as-split-area>
+        <as-split-area size="21">
+            <mat-tab-group class="tabheader"
+            (selectedTabChange)="onSelectedTabChange($event)"
+            >
+                <mat-tab label="Robot" class="tabheader">
+                </mat-tab>
+                <mat-tab label="Scene" class="tabheader">
+                    <!--<app-scene (sceneChanged)="onSceneChange($event)"></app-scene>-->
+                </mat-tab>
+            </mat-tab-group>
+                
+        </as-split-area>
+    </as-split>
+</div>
