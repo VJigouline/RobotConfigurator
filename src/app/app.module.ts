@@ -19,12 +19,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RobotEditorComponent } from './robot-editor/robot-editor.component';
 import { SceneViewComponent } from './scene-view/scene-view.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
+import { MachineEditorComponent } from './machine-editor/machine-editor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RobotEditorComponent,
-    SceneViewComponent
+    SceneViewComponent,
+    MachineEditorComponent
   ],
   imports: [
     AngularSplitModule.forRoot(),

@@ -16,7 +16,8 @@
             <mat-tab-group class="tabheader"
             (selectedTabChange)="onSelectedTabChange($event)"
             >
-                <mat-tab label="Robot" class="tabheader">
+                <mat-tab label="Machine" class="tabheader">
+                    <app-machine-editor></app-machine-editor>
                 </mat-tab>
                 <mat-tab label="Scene" class="tabheader">
                     <!--<app-scene (sceneChanged)="onSceneChange($event)"></app-scene>-->
