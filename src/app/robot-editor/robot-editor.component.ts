@@ -1,11 +1,12 @@
 import { Component, OnInit, Input, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import { Material } from '../materials/material';
 import { SceneViewComponent } from '../scene-view/scene-view.component';
-import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
+import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
 import { ThreeSceneService } from '../three-scene.service';
 import { ResizedEvent } from 'angular-resize-event';
 import { Light } from '../lights/light';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MachineService } from '../machine/machine.service';
 
 @Component({
   selector: 'app-robot-editor',
@@ -25,6 +26,7 @@ export class RobotEditorComponent implements OnInit, AfterViewInit {
 
   constructor(
     private sceneService: ThreeSceneService,
+    private machineService: MachineService,
     private elRef: ElementRef
     ) { }
 
@@ -73,6 +75,11 @@ export class RobotEditorComponent implements OnInit, AfterViewInit {
             (f.fileEntry as FileSystemFileEntry).file((file: File) => {
               console.error('Implementation required.');
               // this.lightsLirbaryEditor.importLibrary(file);
+            });
+            break;
+          case 'mcf':
+            (f.fileEntry as FileSystemFileEntry).file((file: File) => {
+              this.machineService.importMachine(file);
             });
             break;
           default:

@@ -6,7 +6,7 @@ export class Link {
     public ID = uuid().toString();
     public Name: string;
     public Type = LinkType.STATIC;
-    public State = LinkState.DYNAMIC;
+    public State = LinkState.STATIC;
     public Base = new Matrix4();
     public Attachment = new Matrix4();
     public Model: string;
