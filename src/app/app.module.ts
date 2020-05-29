@@ -20,13 +20,15 @@ import { RobotEditorComponent } from './robot-editor/robot-editor.component';
 import { SceneViewComponent } from './scene-view/scene-view.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { MachineEditorComponent } from './machine-editor/machine-editor.component';
+import { SceneEditorComponent } from './scene-editor/scene-editor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RobotEditorComponent,
     SceneViewComponent,
-    MachineEditorComponent
+    MachineEditorComponent,
+    SceneEditorComponent
   ],
   imports: [
     AngularSplitModule.forRoot(),

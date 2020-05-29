@@ -117,6 +117,9 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     this.sceneService.orbitControls.addEventListener('change', this.onOrbitControlChange.bind(this));
     this.sceneService.orbitControls.addEventListener('start', this.sceneService.cancelHideTransform.bind(this.sceneService));
     this.sceneService.orbitControls.addEventListener('end', this.sceneService.delayHideTransform.bind(this.sceneService));
+    this.sceneService.orbitControls.staticMoving = true;
+    this.sceneService.orbitControls.panSpeed = 0.05;
+    (this.sceneService.orbitControls as any).mouseButtons.MIDDLE = 1;
 
     document.addEventListener('mousemove', this.onMouseMove.bind(this));
   }
