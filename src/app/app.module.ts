@@ -5,6 +5,7 @@ import { AngularResizedEventModule } from 'angular-resize-event';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -35,6 +36,7 @@ import { SceneEditorComponent } from './scene-editor/scene-editor.component';
     AngularResizedEventModule,
     BrowserModule,
     BrowserAnimationsModule,
+    DragDropModule,
     HttpClientModule,
     FormsModule,
     MatInputModule,

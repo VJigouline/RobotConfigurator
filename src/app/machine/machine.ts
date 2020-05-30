@@ -20,6 +20,16 @@ export class Machine {
     public Links = new Array<Link>();
     public MainChain: Link;
 
+    public get FreeLinks(): Link[] {
+        const ret = new Array<Link>();
+
+        for (const l of this.Links) {
+            if (!l.Parent && !l.Children.length) { ret.push(l); }
+        }
+
+        return ret;
+    }
+
     constructor(machine?: MachineExport) {
         if (!machine || !machine.Links || !machine.Links.length) { return; }
 

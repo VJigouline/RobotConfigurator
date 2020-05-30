@@ -23,6 +23,22 @@ export class Link {
     public get Children(): Link[] { return this.children; }
     public set Children(value: Link[]) { this.children = value; }
 
+    public get TypeName(): string {
+
+        switch (this.Type) {
+            case LinkType.ARM: return 'arm';
+            case LinkType.BALL_JOINT: return 'ball';
+            case LinkType.HEXAPOD: return 'hexapod';
+            case LinkType.LINEAR_JOINT: return 'linear';
+            case LinkType.PIVOT_JOINT: return 'pivot';
+            case LinkType.STATIC: return 'static';
+            case LinkType.TRIPOD: return 'tripod';
+            case LinkType.UNIVERSAL_JOINT: return 'universal';
+        }
+
+        return 'static';
+    }
+
     private parent: Link;
     private children = new Array<Link>();
 

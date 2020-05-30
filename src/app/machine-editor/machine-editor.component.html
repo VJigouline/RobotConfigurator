@@ -3,5 +3,32 @@
         <mat-card-title>Machine configuration</mat-card-title>
     </mat-card-header>
     <mat-card-content>
+        <div cdkDropListGroup>
+            <div class="example-container">
+              <h2>Main chain</h2>
+          
+              <div
+                cdkDropList
+                [cdkDropListData]="MainChain"
+                class="example-list"
+                (cdkDropListDropped)="onMainChainDropped($event)">
+                <div class="example-box" *ngFor="let item of MainChain" cdkDrag><b>{{item.Name}}</b>
+                    <i>{{item.ID}} <u>{{item.TypeName}}</u></i></div>
+              </div>
+            </div>
+          
+            <div class="example-container">
+              <h2>Free links</h2>
+          
+              <div
+                cdkDropList
+                [cdkDropListData]="FreeLinks"
+                class="example-list"
+                (cdkDropListDropped)="onMainFreeLinksDropped($event)">
+                <div class="example-box" *ngFor="let item of FreeLinks" cdkDrag><b>{{item.Name}}</b>
+                    <i>{{item.ID}} <u>{{item.TypeName}}</u></i></div>
+              </div>
+            </div>
+        </div>
     </mat-card-content>
 </mat-card>
