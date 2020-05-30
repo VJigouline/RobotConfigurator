@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MachineService } from '../machine/machine.service';
 import { Link } from '../machine/link';
-import {CdkDragDrop} from '@angular/cdk/drag-drop';
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-machine-editor',
@@ -38,50 +38,31 @@ export class MachineEditorComponent implements OnInit {
   }
 
   onMainChainDropped(event: CdkDragDrop<Link[]>) {
+    const main = this.MainChain;
+    const free = this.FreeLinks;
     if (event.previousContainer === event.container) {
-      const fl = this.MainChain[event.previousIndex];
-      const parent = fl.Parent;
-      if (parent) {
-        parent.Children = fl.Children;
-      }
-      for (const c of fl.Children) { c.Parent = parent; }
-      if (false) {
-        const l = this.MainChain[0];
-      } else {
-        const l = this.MainChain[event.currentIndex];
-        if (l === this.machineService.machine.MainChain) {
-          this.machineService.machine.MainChain = fl;
-        } else if (fl === this.machineService.machine.MainChain) {
-          this.machineService.machine.MainChain =
-            fl.Children.length ? fl.Children[0] : null;
-        }
-        fl.Parent = l.Parent;
-        l.Parent = fl;
-        fl.Children = [l];
-        if (fl.Parent) {
-          fl.Parent.Children = [fl];
-        }
+      moveItemInArray(main, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(free,
+                        main,
+                        event.previousIndex,
+                        event.currentIndex);
+    }
+    if (main.length) {
+      this.machineService.machine.MainChain = main[0];
+      let parent: Link = null;
+      for (const l of main) {
+        l.Children = [];
+        l.Parent = parent;
+        if (parent) { parent.Children = [l]; }
+        parent = l;
       }
     } else {
-      const fl = this.FreeLinks[event.previousIndex];
-      if (event.currentIndex >= this.MainChain.length) {
-        const l = this.MainChain[this.MainChain.length - 1];
-        fl.Parent = l;
-        l.Children = [fl];
-      } else if (!event.currentIndex) {
-        const l = this.MainChain[0];
-        fl.Children = [l];
-        l.Parent = fl;
-        this.machineService.machine.MainChain = fl;
-      } else {
-        const l = this.MainChain[event.currentIndex];
-        fl.Parent = l.Parent;
-        l.Parent = fl;
-        fl.Children.push(l);
-        if (fl.Parent) {
-          fl.Parent.Children = [fl];
-        }
-      }
+      this.machineService.machine.MainChain = null;
+    }
+    for (const l of free) {
+      l.Parent = null;
+      l.Children = [];
     }
   }
 
