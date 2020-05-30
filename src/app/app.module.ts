@@ -14,6 +14,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -41,6 +42,7 @@ import { SceneEditorComponent } from './scene-editor/scene-editor.component';
     FormsModule,
     MatInputModule,
     MatButtonModule,
+    MatExpansionModule,
     MatTabsModule,
     MatSelectModule,
     MatRadioModule,
