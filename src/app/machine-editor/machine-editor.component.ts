@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MachineService } from '../machine/machine.service';
 import { Link } from '../machine/link';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import { Machine } from '../machine/machine';
 
 @Component({
   selector: 'app-machine-editor',
@@ -81,6 +82,13 @@ export class MachineEditorComponent implements OnInit {
       l.Parent = null;
       l.Children = new Array<Link>();
     }
+  }
+
+  onNewLink(): void {
+    if (!this.machineService.machine) {
+      this.machineService.machine = new Machine(); 
+    }
+    this.machineService.machine.Links.push(new Link());
   }
 
 }

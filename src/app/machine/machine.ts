@@ -24,7 +24,8 @@ export class Machine {
         const ret = new Array<Link>();
 
         for (const l of this.Links) {
-            if (!l.Parent && !l.Children.length) { ret.push(l); }
+            if (!l.Parent && !l.Children.length &&
+                l !== this.MainChain) { ret.push(l); }
         }
 
         return ret;
