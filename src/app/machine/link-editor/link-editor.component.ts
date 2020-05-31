@@ -3,7 +3,7 @@ import { Link } from '../link';
 import { MachineService } from '../machine.service';
 import { Machine } from '../machine';
 import { MatSelectChange } from '@angular/material/select';
-import { LinkType } from '../link-type.enum';
+import { LinkType, LinkState } from '../link-type.enum';
 
 enum LinkClass {
   TABLE = 'Table',
@@ -64,6 +64,12 @@ export class LinkEditorComponent implements OnInit {
     this.prevMachine = this.machineService.machine;
     return this.links;
   }
+
+  get isLinearOrRotary(): boolean {
+    return this.link && (this.link.Link.Type === LinkType.LINEAR_JOINT ||
+      this.link.Link.Type === LinkType.ARM);
+  }
+
   link: LinkDescription;
   links: LinkDescription[];
   prevMachine: Machine;
@@ -76,6 +82,12 @@ export class LinkEditorComponent implements OnInit {
     { type: LinkType.STATIC, name: 'Static' },
     // { type: LinkType.TRIPOD, name: '' },
     // { type: LinkType.UNIVERSAL_JOINT, name: '' }
+  ];
+  linkStates = [
+    // { type: LinkState.AUXILIARY, name: 'Auxiliary' },
+    { type: LinkState.DYNAMIC, name: 'Dynamic' },
+    { type: LinkState.FROZEN, name: 'Frozen' },
+    { type: LinkState.STATIC, name: 'Static' }
   ];
 
   constructor(

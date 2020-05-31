@@ -46,6 +46,58 @@
                     </mat-form-field>
                 </div>
             </div>
-                    </ng-container>
+            <ng-container *ngIf="isLinearOrRotary">
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                        <mat-label>Select link state</mat-label>
+                        <mat-select [(value)]="Link.Link.State">
+                            <mat-option *ngFor="let type of linkStates" [value]="type.type">{{type.name}}</mat-option>
+                        </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                        <mat-label>Select link state</mat-label>
+                        <mat-select [(value)]="Link.Link.State">
+                            <mat-option *ngFor="let type of linkStates" [value]="type.type">{{type.name}}</mat-option>
+                        </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <mat-form-field class="full-width">
+                    <mat-label>Home position</mat-label>
+                    <input matInput placeholder="Home position" width=8 type="number"
+                    [(ngModel)] = "link.Link.Home"
+                    >
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <mat-label>Minimum</mat-label>
+                    <input matInput placeholder="Minimum" width=8 type="number"
+                    [(ngModel)] = "link.Link.Minimum"
+                    >
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <mat-label>Maximum</mat-label>
+                    <input matInput placeholder="Maximum" width=8 type="number"
+                    [(ngModel)] = "link.Link.Maximum"
+                    >
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <mat-label>Offset</mat-label>
+                    <input matInput placeholder="Offset" width=8 type="number"
+                    [(ngModel)] = "link.Link.Offset"
+                    >
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <mat-label>Weight</mat-label>
+                    <input matInput placeholder="Weight" width=8 type="number"
+                    [(ngModel)] = "link.Link.Weight"
+                    >
+                </mat-form-field>
+            </ng-container>
+        </ng-container>
     </mat-card-content>
 </mat-card>
