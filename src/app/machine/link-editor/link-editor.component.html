@@ -1,0 +1,23 @@
+<mat-card class="shipping-card">
+    <mat-card-header>
+        <mat-card-title>Machine link editor</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div>
+            Machine name: <i>{{machineService.machine.Name}}</i>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <mat-label>Select link to edit</mat-label>
+                    <mat-select [(ngModel)]= "Link"
+                    (selectionChange)="onSelectionChange($event)"
+                    >
+                        <mat-option *ngFor="let l of Links" [value]="l"><div class="link-menu"><b>{{l.Link.Name}}</b>
+                            <i>{{l.Link.ID}} <u>{{l.Class}} {{l.Link.TypeName}}</u></i></div></mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

@@ -23,6 +23,7 @@ import { SceneViewComponent } from './scene-view/scene-view.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { MachineEditorComponent } from './machine-editor/machine-editor.component';
 import { SceneEditorComponent } from './scene-editor/scene-editor.component';
+import { MachineModule } from './machine/machine.module';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { SceneEditorComponent } from './scene-editor/scene-editor.component';
     MatCheckboxModule,
     MatSliderModule,
     ReactiveFormsModule,
-    NgxFileDropModule
+    NgxFileDropModule,
+    MachineModule
   ],
   providers: [],
   bootstrap: [AppComponent]

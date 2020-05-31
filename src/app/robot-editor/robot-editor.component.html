@@ -16,10 +16,13 @@
             <mat-tab-group class="tabheader"
             (selectedTabChange)="onSelectedTabChange($event)"
             >
-                <mat-tab label="Machine" class="tabheader">
-                    <app-machine-editor></app-machine-editor>
-                </mat-tab>
-                <mat-tab label="Scene" class="tabheader">
+            <mat-tab label="Machine" class="tabheader">
+                <app-machine-editor></app-machine-editor>
+            </mat-tab>
+            <mat-tab label="Links" class="tabheader">
+                <app-link-editor></app-link-editor>
+            </mat-tab>
+            <mat-tab label="Scene" class="tabheader">
                     <app-scene-editor (sceneChanged)="onSceneChange($event)"></app-scene-editor>
                 </mat-tab>
             </mat-tab-group>
