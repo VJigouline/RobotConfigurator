@@ -3,6 +3,7 @@ import { MachineService } from '../machine/machine.service';
 import { Link } from '../machine/link';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { Machine } from '../machine/machine';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-machine-editor',
@@ -89,6 +90,12 @@ export class MachineEditorComponent implements OnInit {
       this.machineService.machine = new Machine(); 
     }
     this.machineService.machine.Links.push(new Link());
+  }
+
+  onSave(): void {
+    const json = JSON.stringify(this.machineService.machine);
+    const blob = new Blob([json], {type: 'text/plain;charset=utf-8'});
+    saveAs.saveAs(blob, this.machineService.machine.Name + '.mcf');
   }
 
 }

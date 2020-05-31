@@ -2,6 +2,7 @@ import { Link } from './link';
 
 export class MachineExport2 {
     public MainChain: string[];
+    public TableChain: string[];
 }
 
 export class MachineExport {
@@ -9,23 +10,40 @@ export class MachineExport {
     public Links: Link[];
 
     constructor(machine: Machine) {
+        if (!machine) { return; }
         this.Machine = new MachineExport2();
-        this.Machine.MainChain = new Array<string>();
-        for (const l of machine.Links) { this.Machine.MainChain.push(l.ID); }
+        this.Machine.MainChain = [];
+        this.Machine.TableChain = [];
+        if (machine.MainChain) {
+            let l = machine.MainChain;
+            while (l) {
+                this.Machine.MainChain.push(l.ID);
+                l = l.Children.length ? l.Children[0] : null;
+            }
+        }
+        if (machine.TableChain) {
+            let l = machine.TableChain;
+            while (l) {
+                this.Machine.TableChain.push(l.ID);
+                l = l.Children.length ? l.Children[0] : null;
+            }
+        }
         this.Links = machine.Links;
     }
 }
 
 export class Machine {
+    public Name = 'Machine';
     public Links = new Array<Link>();
     public MainChain: Link;
+    public TableChain: Link;
 
     public get FreeLinks(): Link[] {
         const ret = new Array<Link>();
 
         for (const l of this.Links) {
             if (!l.Parent && !l.Children.length &&
-                l !== this.MainChain) { ret.push(l); }
+                l !== this.MainChain && l !== this.TableChain) { ret.push(l); }
         }
 
         return ret;
@@ -40,19 +58,37 @@ export class Machine {
         }
 
         let parent: Link;
-        for (const id of machine.Machine.MainChain) {
-            let l = this.Links.find(lnk => lnk.ID === id);
-            if (!l) {
-                l = new Link();
-                l.ID = id;
+        if (machine.Machine && machine.Machine.MainChain) {
+            for (const id of machine.Machine.MainChain) {
+                let l = this.Links.find(lnk => lnk.ID === id);
+                if (!l) {
+                    l = new Link();
+                    l.ID = id;
+                }
+                if (parent) {
+                    parent.Children.push(l);
+                    l.Parent = parent;
+                } else {
+                    this.MainChain = l;
+                }
+                parent = l;
             }
-            if (parent) {
-                parent.Children.push(l);
-                l.Parent = parent;
-            } else {
-                this.MainChain = l;
+        }
+        if (machine.Machine && machine.Machine.TableChain) {
+            for (const id of machine.Machine.TableChain) {
+                let l = this.Links.find(lnk => lnk.ID === id);
+                if (!l) {
+                    l = new Link();
+                    l.ID = id;
+                }
+                if (parent) {
+                    parent.Children.push(l);
+                    l.Parent = parent;
+                } else {
+                    this.TableChain = l;
+                }
+                parent = l;
             }
-            parent = l;
         }
     }
 
