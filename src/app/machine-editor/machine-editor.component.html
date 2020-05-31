@@ -55,6 +55,11 @@
           </div>
         <div class="row">
             <div class="col">
+                <input
+                style="display: none"
+                type="file" (input)="onOpen($event)"
+                accept=".mcf"
+                #fileInput>
                 <button mat-raised-button color="primary" 
                 type="button"
                 (click)="onNewLink()"
@@ -63,6 +68,10 @@
                 type="button"
                 (click)="onSave()"
                 >Save</button>                   
+                <button mat-raised-button color="primary" 
+                type="button"
+                (click)="fileInput.click()"
+                >Open</button>
             </div>
         </div>
       </mat-card-content>

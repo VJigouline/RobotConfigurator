@@ -155,4 +155,9 @@ export class MachineEditorComponent implements OnInit {
     saveAs.saveAs(blob, this.machineService.machine.Name + '.mcf');
   }
 
+  public onOpen(event: any): void {
+    this.machineService.importMachine(event.target.files[0]);
+    event.target.value = '';
+  }
+
 }
