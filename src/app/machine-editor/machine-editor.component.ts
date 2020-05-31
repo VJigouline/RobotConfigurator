@@ -26,6 +26,20 @@ export class MachineEditorComponent implements OnInit {
     return ret;
   }
 
+  get TableChain(): Link[] {
+    const ret = new Array<Link>();
+
+    if (!this.machineService.machine) { return ret; }
+
+    let link = this.machineService.machine.TableChain;
+    while (link) {
+      ret.push(link);
+      link = link.Children.length ? link.Children[0] : null;
+    }
+
+    return ret;
+  }
+
   get FreeLinks(): Link[] {
     if (!this.machineService.machine) { return []; }
 
@@ -61,6 +75,35 @@ export class MachineEditorComponent implements OnInit {
       }
     } else {
       this.machineService.machine.MainChain = null;
+    }
+    for (const l of free) {
+      l.Parent = null;
+      l.Children = [];
+    }
+  }
+
+  onTableChainDropped(event: CdkDragDrop<Link[]>) {
+    const main = this.TableChain;
+    const free = this.FreeLinks;
+    if (event.previousContainer === event.container) {
+      moveItemInArray(main, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(free,
+                        main,
+                        event.previousIndex,
+                        event.currentIndex);
+    }
+    if (main.length) {
+      this.machineService.machine.TableChain = main[0];
+      let parent: Link = null;
+      for (const l of main) {
+        l.Children = [];
+        l.Parent = parent;
+        if (parent) { parent.Children = [l]; }
+        parent = l;
+      }
+    } else {
+      this.machineService.machine.TableChain = null;
     }
     for (const l of free) {
       l.Parent = null;

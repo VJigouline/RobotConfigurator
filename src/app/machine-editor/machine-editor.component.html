@@ -4,33 +4,45 @@
     </mat-card-header>
     <mat-card-content>
         <div cdkDropListGroup>
-            <div class="example-container">
+            <div class="chain-container">
               <h2>Main</h2>
           
               <div
                 cdkDropList
                 [cdkDropListData]="MainChain"
-                class="example-list"
+                class="chain-list"
                 (cdkDropListDropped)="onMainChainDropped($event)">
-                <div class="example-box" *ngFor="let item of MainChain" cdkDrag><b>{{item.Name}}</b>
+                <div class="link-box" *ngFor="let item of MainChain" cdkDrag><b>{{item.Name}}</b>
                     <i>{{item.ID}} <u>{{item.TypeName}}</u></i></div>
               </div>
             </div>
           
-            <div class="example-container">
+            <div class="chain-container">
               <h2>Free links</h2>
           
               <div
                 cdkDropList
                 cdkDropListSortingDisabled
                 [cdkDropListData]="FreeLinks"
-                class="example-list"
+                class="chain-list"
                 (cdkDropListDropped)="onMainFreeLinksDropped($event)">
-                <div class="example-box" *ngFor="let item of FreeLinks" cdkDrag><b>{{item.Name}}</b>
+                <div class="link-box" *ngFor="let item of FreeLinks" cdkDrag><b>{{item.Name}}</b>
                     <i>{{item.ID}} <u>{{item.TypeName}}</u></i></div>
               </div>
             </div>
-        </div>
+            <div class="chain-container">
+                <h2>Table</h2>
+            
+                <div
+                  cdkDropList
+                  [cdkDropListData]="TableChain"
+                  class="chain-list"
+                  (cdkDropListDropped)="onTableChainDropped($event)">
+                  <div class="link-box" *ngFor="let item of TableChain" cdkDrag><b>{{item.Name}}</b>
+                      <i>{{item.ID}} <u>{{item.TypeName}}</u></i></div>
+                </div>
+              </div>
+          </div>
         <div class="row">
             <div class="col">
                 <button mat-raised-button color="primary" 
