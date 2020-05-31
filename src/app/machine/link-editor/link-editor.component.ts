@@ -3,6 +3,7 @@ import { Link } from '../link';
 import { MachineService } from '../machine.service';
 import { Machine } from '../machine';
 import { MatSelectChange } from '@angular/material/select';
+import { LinkType } from '../link-type.enum';
 
 enum LinkClass {
   TABLE = 'Table',
@@ -66,6 +67,16 @@ export class LinkEditorComponent implements OnInit {
   link: LinkDescription;
   links: LinkDescription[];
   prevMachine: Machine;
+  linkTypes = [
+    { type: LinkType.ARM, name: 'Arm' },
+    // { type: LinkType.BALL_JOINT, name: '' },
+    // { type: LinkType.HEXAPOD, name: '' },
+    { type: LinkType.LINEAR_JOINT, name: 'Linear' },
+    // { type: LinkType.PIVOT_JOINT, name: '' },
+    { type: LinkType.STATIC, name: 'Static' },
+    // { type: LinkType.TRIPOD, name: '' },
+    // { type: LinkType.UNIVERSAL_JOINT, name: '' }
+  ];
 
   constructor(
     public machineService: MachineService

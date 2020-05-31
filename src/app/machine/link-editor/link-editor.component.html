@@ -19,5 +19,33 @@
                 </mat-form-field>
             </div>
         </div>
+        <ng-container *ngIf="Link">
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-label>Link ID</mat-label>
+                        <input [(ngModel)]="Link.Link.ID" matInput placeholder="Enter link ID">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-label>Link name</mat-label>
+                        <input [(ngModel)]="Link.Link.Name" matInput placeholder="Enter link name">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                    <mat-label>Select link type</mat-label>
+                    <mat-select [(value)]="Link.Link.Type">
+                        <mat-option *ngFor="let type of linkTypes" [value]="type.type">{{type.name}}</mat-option>
+                    </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+                    </ng-container>
     </mat-card-content>
 </mat-card>
