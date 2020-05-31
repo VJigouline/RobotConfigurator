@@ -7,7 +7,7 @@ import { Machine, MachineExport } from './machine';
 })
 export class MachineService {
 
-  public machine: Machine;
+  public machine = new Machine();
 
   constructor(
     private sceneService: ThreeSceneService

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MachineService } from '../machine/machine.service';
 import { Link } from '../machine/link';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragStart} from '@angular/cdk/drag-drop';
 import { Machine } from '../machine/machine';
 import { saveAs } from 'file-saver';
 
@@ -11,6 +11,15 @@ import { saveAs } from 'file-saver';
   styleUrls: ['./machine-editor.component.scss']
 })
 export class MachineEditorComponent implements OnInit {
+
+  get MachineName(): string {
+    return this.machineService.machine ? this.machineService.machine.Name : '';
+  }
+  set MachineName(value: string) {
+    if (this.machineService.machine) {
+      this.machineService.machine.Name = value;
+    }
+  }
 
   get MainChain(): Link[] {
     const ret = new Array<Link>();
@@ -53,7 +62,7 @@ export class MachineEditorComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onMainChainDropped(event: CdkDragDrop<Link[]>) {
+  onMainChainDropped(event: CdkDragDrop<Link[]>): void {
     const main = this.MainChain;
     const free = this.FreeLinks;
     if (event.previousContainer === event.container) {
@@ -82,7 +91,12 @@ export class MachineEditorComponent implements OnInit {
     }
   }
 
-  onTableChainDropped(event: CdkDragDrop<Link[]>) {
+  onMainChainStarted(event: CdkDragStart): void {
+    console.error('drag started.');
+  }
+
+
+  onTableChainDropped(event: CdkDragDrop<Link[]>): void {
     const main = this.TableChain;
     const free = this.FreeLinks;
     if (event.previousContainer === event.container) {
@@ -111,7 +125,7 @@ export class MachineEditorComponent implements OnInit {
     }
   }
 
-  onMainFreeLinksDropped(event: CdkDragDrop<Link[]>) {
+  onFreeLinksDropped(event: CdkDragDrop<Link[]>): void {
     if (event.previousContainer === event.container) {
     } else {
       const l = this.MainChain[event.previousIndex];
@@ -130,7 +144,7 @@ export class MachineEditorComponent implements OnInit {
 
   onNewLink(): void {
     if (!this.machineService.machine) {
-      this.machineService.machine = new Machine(); 
+      this.machineService.machine = new Machine();
     }
     this.machineService.machine.Links.push(new Link());
   }
