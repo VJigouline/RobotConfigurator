@@ -98,6 +98,16 @@
                     >
                 </mat-form-field>
             </ng-container>
+            <div class="full-width">
+                <app-transform-editor
+                    Label="Base transform"
+                    [Transform]="link.Link.Base"
+                ></app-transform-editor>
+                <app-transform-editor
+                    Label="Attachment transform"
+                    [Transform]="link.Link.Attachment"
+                ></app-transform-editor>
+            </div>
         </ng-container>
     </mat-card-content>
 </mat-card>

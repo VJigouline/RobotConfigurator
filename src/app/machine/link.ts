@@ -1,5 +1,6 @@
 import { LinkType, LinkState} from './link-type.enum';
 import { Matrix4 } from '../geometries/matrix4';
+import { Transform3 } from '../geometries/transform3';
 import { v4 as uuid } from 'uuid';
 
 export class LinkExport {
@@ -7,8 +8,8 @@ export class LinkExport {
     public Name: string;
     public Type: LinkType;
     public State: LinkState;
-    public Base: Matrix4;
-    public Attachment: Matrix4;
+    public Base: number[];
+    public Attachment: number[];
     public Model: string;
     public Home: number;
     public Minimum: number;
@@ -23,9 +24,8 @@ export class LinkExport {
         if (link.Name) { this.Name = link.Name; }
         if (link.Type) { this.Type = link.Type; }
         if (link.State) { this.State = link.State; }
-        if (link.Base) { this.Base = link.Base; }
-        if (link.Attachment) { this.Attachment = link.Attachment; }
-        if (link.Model) { this.Model = link.Model; }
+        if (link.Base) { this.Base = link.Base.toArray(); }
+        if (link.Attachment) { this.Attachment = link.Attachment.toArray(); }
         if (link.Home) { this.Home = link.Home; }
         if (link.Minimum) { this.Minimum = link.Minimum; }
         if (link.Maximum) { this.Maximum = link.Maximum; }
@@ -41,8 +41,8 @@ export class Link {
     public Name: string;
     public Type = LinkType.STATIC;
     public State = LinkState.STATIC;
-    public Base = new Matrix4();
-    public Attachment = new Matrix4();
+    public Base = new Transform3();
+    public Attachment = new Transform3();
     public Model: string;
     public Home: number;
     public Minimum: number;
@@ -86,8 +86,20 @@ export class Link {
         if (link.Name) { this.Name = link.Name; }
         if (link.Type) { this.Type = link.Type; }
         if (link.State) { this.State = link.State; }
-        if (link.Base) { this.Base = link.Base; }
-        if (link.Attachment) { this.Attachment = link.Attachment; }
+        if (link.Base) {
+            if (Array.isArray(link.Base)) {
+                this.Base = Transform3.fromArray(link.Base);
+            } else {
+                this.Base = link.Base;
+            }
+        }
+        if (link.Attachment) {
+            if (Array.isArray(link.Attachment)) {
+                this.Attachment = Transform3.fromArray(link.Attachment);
+            } else {
+                this.Attachment = link.Attachment;
+            }
+        }
         if (link.Model) { this.Model = link.Model; }
         if (link.Home) { this.Home = link.Home; }
         if (link.Minimum) { this.Minimum = link.Minimum; }

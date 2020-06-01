@@ -1,5 +1,6 @@
 import { Point3 } from './point3';
 import { Vector3 } from './vector3';
+import { Matrix4 } from './matrix4';
 
 export class Transform3 {
     public static get Identity(): Transform3 {
@@ -44,12 +45,68 @@ export class Transform3 {
         return new Transform3(origin, xvec, yvec, zvec);
     }
 
+    public static YX(origin: Point3, y: Vector3, x: Vector3): Transform3 {
+        const yvec = y.UnitVector;
+        const zvec = x.clone().cross(y).UnitVector;
+        const xvec = y.clone().cross(zvec).UnitVector;
+
+        return new Transform3(origin, xvec, yvec, zvec);
+    }
+
+    public static YZ(origin: Point3, y: Vector3, z: Vector3): Transform3 {
+        const yvec = y.UnitVector;
+        const xvec = y.clone().cross(z).UnitVector;
+        const zvec = xvec.clone().cross(y).UnitVector;
+
+        return new Transform3(origin, xvec, yvec, zvec);
+    }
+
+    public static ZY(origin: Point3, z: Vector3, y: Vector3): Transform3 {
+        const zvec = z.UnitVector;
+        const xvec = y.clone().cross(z).UnitVector;
+        const yvec = z.clone().cross(xvec).UnitVector;
+
+        return new Transform3(origin, xvec, yvec, zvec);
+    }
+
+    public static XZ(origin: Point3, x: Vector3, z: Vector3): Transform3 {
+        const xvec = x.UnitVector;
+        const yvec = z.clone().cross(x).UnitVector;
+        const zvec = x.clone().cross(yvec).UnitVector;
+
+        return new Transform3(origin, xvec, yvec, zvec);
+    }
+
     public static ZX(origin: Point3, z: Vector3, x: Vector3): Transform3 {
         const zvec = z.UnitVector;
         const yvec = z.clone().cross(x).UnitVector;
         const xvec = yvec.clone().cross(z).UnitVector;
 
         return new Transform3(origin, xvec, yvec, zvec);
+    }
+
+    public static fromArray(m: number[]): Transform3 {
+        return Transform3.XY(new Point3(m[3], m[7], m[11]),
+            new Vector3(m[0], m[4], m[8]), new Vector3(m[1], m[5], m[9]));
+    }
+
+    public toArray(): number[] {
+        const ret = new Matrix4();
+
+        ret[0] = this.XVec.X;
+        ret[1] = this.YVec.X;
+        ret[2] = this.ZVec.X;
+        ret[3] = this.Origin.X;
+        ret[4] = this.XVec.Y;
+        ret[5] = this.YVec.Y;
+        ret[6] = this.ZVec.Y;
+        ret[7] = this.Origin.Y;
+        ret[8] = this.XVec.Z;
+        ret[9] = this.YVec.Z;
+        ret[10] = this.ZVec.Z;
+        ret[11] = this.Origin.Z;
+
+        return ret.data;
     }
 
     public point3(point: Point3): Point3 {

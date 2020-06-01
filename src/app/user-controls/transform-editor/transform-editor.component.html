@@ -1,0 +1,140 @@
+<mat-label class="label">{{Label}}</mat-label>
+<mat-grid-list cols="5" rowHeight="55px">
+    <mat-grid-tile colspan=1>
+        <mat-label class="label">Origin</mat-label>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="X" width=4 type="number"
+            [(ngModel)] = "Transform.Origin.X"
+            (input) = "onChange()"
+            >
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="Y" width=4 type="number"
+            [(ngModel)] = "Transform.Origin.Y"
+            (input) = "onChange()"
+             >
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="Z" width=4 type="number"
+            [(ngModel)] = "Transform.Origin.Z"
+            (input) = "onChange()"
+             >
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-label class="label">XVec</mat-label>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="X" width=4 type="number"
+            [(ngModel)] = "Transform.XVec.X"
+            [disabled] = "enableX"
+            (input) = "onXChange()"
+            step = "0.01"
+            >
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="Y" width=4 type="number"
+            [(ngModel)] = "Transform.XVec.Y"
+            [disabled] = "enableX"
+            (input) = "onXChange()"
+            step = "0.01"
+             >
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="Z" width=4 type="number"
+            [(ngModel)] = "Transform.XVec.Z"
+            [disabled] = "enableX"
+            (input) = "onXChange()"
+            step = "0.01"
+             >
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-checkbox [(ngModel)]="enableX"></mat-checkbox>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-label class="label">YVec</mat-label>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="X" width=4 type="number"
+            [(ngModel)] = "Transform.YVec.X"
+            [disabled] = "enableY"
+            (input) = "onYChange()"
+            step = "0.01"
+            >
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="Y" width=4 type="number"
+            [(ngModel)] = "Transform.YVec.Y"
+            [disabled] = "enableY"
+            (input) = "onYChange()"
+            step = "0.01"
+             >
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="Z" width=4 type="number"
+            [(ngModel)] = "Transform.YVec.Z"
+            [disabled] = "enableY"
+            (input) = "onYChange()"
+            step = "0.01"
+             >
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-checkbox [(ngModel)]="enableY"></mat-checkbox>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-label class="label">ZVec</mat-label>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="X" width=4 type="number"
+            [(ngModel)] = "Transform.ZVec.X"
+            [disabled] = "enableZ"
+            (input) = "onZChange()"
+            step = "0.01"
+            >
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="Y" width=4 type="number"
+            [(ngModel)] = "Transform.ZVec.Y"
+            [disabled] = "enableZ"
+            (input) = "onZChange()"
+            step = "0.01"
+             >
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="Z" width=4 type="number"
+            [(ngModel)] = "Transform.ZVec.Z"
+            [disabled] = "enableZ"
+            (input) = "onZChange()"
+            step = "0.01"
+             >
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-checkbox [(ngModel)]="enableZ"></mat-checkbox>
+    </mat-grid-tile>
+</mat-grid-list>

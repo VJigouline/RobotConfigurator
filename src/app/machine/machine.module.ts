@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LinkEditorComponent } from './link-editor/link-editor.component';
+import { UserControlsModule } from '../user-controls/user-controls.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -37,6 +38,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatCheckboxModule,
     MatSliderModule,
     ReactiveFormsModule,
+    UserControlsModule
   ],
   exports: [
     LinkEditorComponent
