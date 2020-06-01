@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ThreeSceneService } from '../three-scene.service';
 import { Machine, MachineExport } from './machine';
+import { } from '../objects3d/link-helper';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,9 @@ export class MachineService {
     fileReader.onload = () => {
       try {
         const m = JSON.parse(fileReader.result as string) as MachineExport;
+        this.sceneService.removeMachine(this.machine);
         this.machine = new Machine(m);
+        this.sceneService.addMachine(this.machine);
         console.log('Machine imported from ' + file.name);
       } catch (e) {
         console.error('Failure to read machine: ' + e);

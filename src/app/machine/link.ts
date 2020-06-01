@@ -1,7 +1,8 @@
 import { LinkType, LinkState} from './link-type.enum';
-import { Matrix4 } from '../geometries/matrix4';
 import { Transform3 } from '../geometries/transform3';
 import { v4 as uuid } from 'uuid';
+
+import * as THREE from 'three';
 
 export class LinkExport {
     public ID: string;
@@ -56,6 +57,8 @@ export class Link {
     public set Parent(value: Link) { this.parent = value; }
     public get Children(): Link[] { return this.children; }
     public set Children(value: Link[]) { this.children = value; }
+
+    public defaultObject: THREE.Object3D;
 
     public get TypeName(): string {
 

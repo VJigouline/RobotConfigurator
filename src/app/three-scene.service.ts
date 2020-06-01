@@ -16,6 +16,8 @@ import { LightType } from './lights/light-type.enum';
 import { Material } from './materials/material';
 import { Materials } from './materials/materials';
 import { Polygon3 } from './geometries/polygon3';
+import { Machine } from './machine/machine';
+import { LinkHelper } from './objects3d/link-helper';
 
 interface ViewerFile extends File {
   relativePath: string;
@@ -647,5 +649,26 @@ export class ThreeSceneService {
         this.childrenSelectableObjects(child.children, false, objects);
       }
     }
+  }
+
+  public removeMachine(machine: Machine): void {
+    if (!machine) { return; }
+
+    for (const l of machine.Links) {
+      this.removeObjectFromScene(l.defaultObject);
+    }
+
+    this.Render();
+  }
+
+  public addMachine(machine: Machine): void {
+    if (!machine) { return; }
+
+    for (const l of machine.Links) {
+      l.defaultObject = new LinkHelper(l, 1, this.camera);
+      this.scene.children.push(l.defaultObject);
+    }
+
+    this.Render();
   }
 }
