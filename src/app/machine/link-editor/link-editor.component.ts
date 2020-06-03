@@ -115,4 +115,9 @@ export class LinkEditorComponent implements OnInit {
     this.changeLink.emit(this.link.Link);
   }
 
+  copyBaseFromParentAttachment(): void {
+    if (!this.link.Link.Parent) { return; }
+    this.link.Link.Base.copy(this.link.Link.Parent.Attachment);
+    this.changeLink.emit(this.link.Link);
+  }
 }

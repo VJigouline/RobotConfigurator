@@ -6,11 +6,13 @@ export class MachineExport2 {
 }
 
 export class MachineExport {
+    public Name: string;
     public Machine: MachineExport2;
     public Links: Link[];
 
     constructor(machine: Machine) {
         if (!machine) { return; }
+        this.Name = machine.Name;
         this.Machine = new MachineExport2();
         this.Machine.MainChain = [];
         this.Machine.TableChain = [];
@@ -51,6 +53,8 @@ export class Machine {
 
     constructor(machine?: MachineExport) {
         if (!machine || !machine.Links || !machine.Links.length) { return; }
+
+        this.Name = machine.Name ? machine.Name : 'Machine';
 
         const link = new Link();
         for (const l of machine.Links) {

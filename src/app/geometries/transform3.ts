@@ -93,18 +93,18 @@ export class Transform3 {
     public toArray(): number[] {
         const ret = new Matrix4();
 
-        ret[0] = this.XVec.X;
-        ret[1] = this.YVec.X;
-        ret[2] = this.ZVec.X;
-        ret[3] = this.Origin.X;
-        ret[4] = this.XVec.Y;
-        ret[5] = this.YVec.Y;
-        ret[6] = this.ZVec.Y;
-        ret[7] = this.Origin.Y;
-        ret[8] = this.XVec.Z;
-        ret[9] = this.YVec.Z;
-        ret[10] = this.ZVec.Z;
-        ret[11] = this.Origin.Z;
+        ret.data[0] = this.XVec.X;
+        ret.data[1] = this.YVec.X;
+        ret.data[2] = this.ZVec.X;
+        ret.data[3] = this.Origin.X;
+        ret.data[4] = this.XVec.Y;
+        ret.data[5] = this.YVec.Y;
+        ret.data[6] = this.ZVec.Y;
+        ret.data[7] = this.Origin.Y;
+        ret.data[8] = this.XVec.Z;
+        ret.data[9] = this.YVec.Z;
+        ret.data[10] = this.ZVec.Z;
+        ret.data[11] = this.Origin.Z;
 
         return ret.data;
     }
@@ -112,5 +112,20 @@ export class Transform3 {
     public point3(point: Point3): Point3 {
         return this.Origin.clone().add(this.XVec.multiply(point.X))
         .add(this.YVec.multiply(point.Y)).add(this.ZVec.multiply(point.Z));
+    }
+
+    public copy(transform: Transform3): void {
+
+        this.Origin = transform.Origin.clone();
+        this.XVec = transform.XVec.clone();
+        this.YVec = transform.YVec.clone();
+        this.ZVec = transform.ZVec.clone();
+    }
+
+    public clone(): Transform3 {
+        const ret = new Transform3();
+        ret.copy(this);
+
+        return ret;
     }
 }

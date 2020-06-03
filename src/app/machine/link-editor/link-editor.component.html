@@ -120,4 +120,13 @@
             </div>
         </ng-container>
     </mat-card-content>
+    <div class="row">
+        <div class="col">
+            <button mat-raised-button color="primary" 
+            type="button"
+            [disabled]="!link || !link.Link.Parent"
+            (click)="copyBaseFromParentAttachment()"
+            >Copy base from parent attachment</button>                   
+        </div>
+    </div>
 </mat-card>
