@@ -69,6 +69,26 @@ export class Transform3 {
         return new Transform3(origin, xvec, yvec, zvec);
     }
 
+    public static Translation(x: number, y: number, z: number) {
+        const ret = new Transform3();
+        ret.Origin = new Vector3(x, y, z);
+        return ret;
+    }
+
+    public static Rotation(x: number, y: number, z: number, angle: number) {
+        const ret = new Transform3();
+
+        const v = new Vector3(x, y, z).UnitVector;
+        const s = Math.sin(angle);
+        const c = Math.cos(angle);
+
+        ret.XVec = new Vector3(c + x * x * (1 - c), y * x * (1 - c) + z * s, z * x * (1 - c) - y * s);
+        ret.YVec = new Vector3(x * y * (1 - c) - z * s, c + y * y * (1 - c), z * y * (1 - c) + x * s);
+        ret.ZVec = new Vector3(x * z * (1 - c) + y * s, y * z * (1 - c) - x * s, c + z * z * (1 - c));
+
+        return ret;
+    }
+
     public static XZ(origin: Point3, x: Vector3, z: Vector3): Transform3 {
         const xvec = x.UnitVector;
         const yvec = z.clone().cross(x).UnitVector;

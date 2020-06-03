@@ -1,9 +1,11 @@
 import { LinkType, LinkState} from './link-type.enum';
 import { Transform3 } from '../geometries/transform3';
+import { Vector3 } from '../geometries/vector3';
 import { LinkHelper } from '../objects3d/link-helper';
 import { v4 as uuid } from 'uuid';
 
 import * as THREE from 'three';
+import { Point3 } from '../geometries/point3';
 
 export class LinkExport {
     public ID: string;
@@ -35,7 +37,9 @@ export class LinkExport {
         if (link.Position) { this.Position = link.Position; }
         if (link.Offset) { this.Offset = link.Offset; }
         if (link.Weight) { this.Weight = link.Weight; }
-        if (link.Direction) { this.Direction = link.Direction; }
+        if (link.Direction) {
+            this.Direction = [link.Direction.X, link.Direction.Y, link.Direction.Z];
+        }
     }
 }
 
@@ -53,7 +57,7 @@ export class Link {
     public Position: number;
     public Offset: number;
     public Weight: number;
-    public Direction: number[];
+    public Direction: Vector3;
 
     public get Parent(): Link { return this.parent; }
     public set Parent(value: Link) { this.parent = value; }
@@ -80,6 +84,7 @@ export class Link {
 
     private parent: Link;
     private children = new Array<Link>();
+    private dynamicTransform = new Transform3();
 
     constructor(link?: Link) {
         if (!link) { return; }
@@ -95,14 +100,14 @@ export class Link {
             if (Array.isArray(link.Base)) {
                 this.Base = Transform3.fromArray(link.Base);
             } else {
-                this.Base = link.Base;
+                this.Base = link.Base.clone();
             }
         }
         if (link.Attachment) {
             if (Array.isArray(link.Attachment)) {
                 this.Attachment = Transform3.fromArray(link.Attachment);
             } else {
-                this.Attachment = link.Attachment;
+                this.Attachment = link.Attachment.clone();
             }
         }
         if (link.Model) { this.Model = link.Model; }
@@ -112,9 +117,49 @@ export class Link {
         if (link.Position) { this.Position = link.Position; }
         if (link.Offset) { this.Offset = link.Offset; }
         if (link.Weight) { this.Weight = link.Weight; }
-        if (link.Direction) { this.Direction = link.Direction; }
+        if (link.Direction) {
+            if (Array.isArray(link.Direction)) {
+                const d = link.Direction;
+                link.Direction = new Vector3(d.X, d.Y, d.Z);
+            } else {
+                link.Direction = link.Direction.clone();
+            }
+        } else {
+            link.Direction = this.defaultDirection();
+        }
         if (link.parent) { this.parent = link.parent; }
         if (link.children) { this.children = link.children; }
+    }
+
+    public defaultDirection(): Vector3 {
+        return Vector3.DirZ;
+    }
+
+    public updateDynamicTransform(): void {
+        switch (this.Type) {
+            case LinkType.ARM:
+                this.updateArmTransform();
+                break;
+            case LinkType.LINEAR_JOINT:
+                this.updateLinearTransform();
+                break;
+            case LinkType.STATIC:
+                break;
+            default:
+                console.error(`Link type ${this.Type} is not supported.`);
+                break;
+        }
+    }
+
+    private updateArmTransform(): void {
+        this.dynamicTransform.copy(Transform3.Rotation(
+            this.Direction.X, this.Direction.Y, this.Direction.Z,
+            Math.PI * (this.Position + this.Offset) / 180));
+    }
+
+    private updateLinearTransform(): void {
+        const v = this.Direction.multiply(this.Position + this.Offset);
+        this.dynamicTransform.copy(Transform3.Translation(v.X, v.Y, v.Z));
     }
 
     public toJSON(): LinkExport {
