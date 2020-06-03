@@ -23,12 +23,6 @@ export class TransformHelper extends THREE.Object3D {
     }
 
     public static matrix(tra: Transform3): THREE.Matrix4 {
-        // return new THREE.Matrix4().set(
-        //     tra.XVec.X, tra.XVec.Y, tra.XVec.Z, 0,
-        //     tra.YVec.X, tra.YVec.Y, tra.YVec.Z, 0,
-        //     tra.ZVec.X, tra.ZVec.Y, tra.ZVec.Z, 0,
-        //     tra.Origin.X, tra.Origin.Y, tra.Origin.Z, 1
-        // );
         return new THREE.Matrix4().set(
             tra.XVec.X, tra.YVec.X, tra.ZVec.X, tra.Origin.X,
             tra.XVec.Y, tra.YVec.Y, tra.ZVec.Y, tra.Origin.Y,
@@ -104,6 +98,10 @@ export class TransformHelper extends THREE.Object3D {
         meshCone.parent = this;
         this.children.push(meshCone);
 
+        this.updateHelper();
+    }
+
+    public updateHelper(): void {
         this.matrixAutoUpdate = false;
         this.matrix = TransformHelper.matrix(this.transform);
         this.matrixWorld = this.matrix;

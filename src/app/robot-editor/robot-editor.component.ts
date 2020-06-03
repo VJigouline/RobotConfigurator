@@ -7,6 +7,7 @@ import { ResizedEvent } from 'angular-resize-event';
 import { Light } from '../lights/light';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MachineService } from '../machine/machine.service';
+import { Link } from '../machine/link';
 
 @Component({
   selector: 'app-robot-editor',
@@ -125,5 +126,10 @@ export class RobotEditorComponent implements OnInit, AfterViewInit {
   }
 
   public onSelectedTabChange(event: MatTabChangeEvent): void {
+  }
+
+  onChangeLink(event: Link): void {
+    event.defaultObject.updateHelper();
+    this.threeView.Render();
   }
 }

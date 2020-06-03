@@ -7,9 +7,19 @@
             <mat-card-content>
             </mat-card-content>
             <mat-card-actions>
-                <button mat-raised-button color="primary" (click)="onNewScene()">New Scene</button>
-                <button mat-raised-button color="primary" (click)="onAddToScene()" *ngIf="false">Add to Scene</button>
-                <button mat-raised-button color="primary" (click)="onUpdateScene()">Fit view</button>
+                <div class="row">
+                    <button mat-raised-button color="primary" (click)="onMinusX()">-X</button>
+                    <button mat-raised-button color="primary" (click)="onPlusX()">+X</button>
+                    <button mat-raised-button color="primary" (click)="onMinusY()">-Y</button>
+                    <button mat-raised-button color="primary" (click)="onPlusY()">+Y</button>
+                    <button mat-raised-button color="primary" (click)="onMinusZ()">-Z</button>
+                    <button mat-raised-button color="primary" (click)="onPlusZ()">+Z</button>
+                </div>
+                <div class="row">
+                    <button mat-raised-button color="primary" (click)="onNewScene()">New Scene</button>
+                    <button mat-raised-button color="primary" (click)="onAddToScene()" *ngIf="false">Add to Scene</button>
+                    <button mat-raised-button color="primary" (click)="onUpdateScene()">Fit view</button>
+                </div>
             </mat-card-actions>
         </mat-card>
     </mat-card-content>

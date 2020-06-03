@@ -62,6 +62,7 @@ export class TransformEditorComponent implements OnInit {
       this.Transform = Transform3.ZX(this.Transform.Origin,
         this.Transform.ZVec, this.Transform.XVec);
     }
+    this.changeTransform.emit(this.Transform);
   }
 
   public onYChange(): void {
@@ -72,6 +73,7 @@ export class TransformEditorComponent implements OnInit {
       this.Transform = Transform3.XY(this.Transform.Origin,
         this.Transform.XVec, this.Transform.YVec);
     }
+    this.changeTransform.emit(this.Transform);
   }
 
   public onZChange(): void {
@@ -82,6 +84,7 @@ export class TransformEditorComponent implements OnInit {
       this.Transform = Transform3.YZ(this.Transform.Origin,
         this.Transform.YVec, this.Transform.ZVec);
     }
+    this.changeTransform.emit(this.Transform);
   }
 
 }

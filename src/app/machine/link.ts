@@ -1,5 +1,6 @@
 import { LinkType, LinkState} from './link-type.enum';
 import { Transform3 } from '../geometries/transform3';
+import { LinkHelper } from '../objects3d/link-helper';
 import { v4 as uuid } from 'uuid';
 
 import * as THREE from 'three';
@@ -58,7 +59,7 @@ export class Link {
     public get Children(): Link[] { return this.children; }
     public set Children(value: Link[]) { this.children = value; }
 
-    public defaultObject: THREE.Object3D;
+    public defaultObject: LinkHelper;
 
     public get TypeName(): string {
 

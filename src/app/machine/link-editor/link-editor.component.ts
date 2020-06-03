@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Link } from '../link';
 import { MachineService } from '../machine.service';
 import { Machine } from '../machine';
 import { MatSelectChange } from '@angular/material/select';
 import { LinkType, LinkState } from '../link-type.enum';
+import { Transform3 } from '../../geometries/transform3';
 
 enum LinkClass {
   TABLE = 'Table',
@@ -28,6 +29,12 @@ class LinkDescription {
 })
 
 export class LinkEditorComponent implements OnInit {
+
+  // events
+  @Output() changeLink = new EventEmitter<Link>();
+
+  // properties
+
 
   get Link(): LinkDescription {
     if (!this.link || !this.Links.find(l => l === this.link)) {
@@ -98,6 +105,14 @@ export class LinkEditorComponent implements OnInit {
   }
 
   onSelectionChange(change: MatSelectChange): void {
+  }
+
+  onChangeTransformBase(transform: Transform3): void {
+    this.changeLink.emit(this.link.Link);
+  }
+
+  onChangeTransformAttachment(transform: Transform3): void {
+    this.changeLink.emit(this.link.Link);
   }
 
 }
