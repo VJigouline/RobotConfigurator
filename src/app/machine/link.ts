@@ -22,12 +22,13 @@ export class LinkExport {
     public Direction: number[];
 
     constructor(link: Link) {
-        if (link.ID) { this.ID = link.ID; }
+        const t = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
+        this.ID = link.ID ? link.ID : uuid().toString();
         if (link.Name) { this.Name = link.Name; }
-        if (link.Type) { this.Type = link.Type; }
+        this.Type = link.Type ? link.Type : LinkType.STATIC;
         if (link.State) { this.State = link.State; }
-        if (link.Base) { this.Base = link.Base.toArray(); }
-        if (link.Attachment) { this.Attachment = link.Attachment.toArray(); }
+        this.Base = link.Base ? link.Base.toArray() : t;
+        this.Attachment = link.Attachment ? link.Attachment.toArray() : t;
         if (link.Home) { this.Home = link.Home; }
         if (link.Minimum) { this.Minimum = link.Minimum; }
         if (link.Maximum) { this.Maximum = link.Maximum; }
@@ -42,7 +43,7 @@ export class Link {
     public ID = uuid().toString();
     public Name: string;
     public Type = LinkType.STATIC;
-    public State = LinkState.STATIC;
+    public State: LinkState;
     public Base = new Transform3();
     public Attachment = new Transform3();
     public Model: string;
