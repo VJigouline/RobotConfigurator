@@ -22,6 +22,12 @@ export class Vector3 {
         this.Z = z ? z : 0;
     }
 
+    public set(x: number, y: number, z: number) {
+        this.X = x;
+        this.Y = y;
+        this.Z = z;
+    }
+
     public add(vector: Vector3): Vector3 {
         this.X += vector.X;
         this.Y += vector.Y;

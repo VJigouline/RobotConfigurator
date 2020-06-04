@@ -134,6 +134,41 @@ export class Transform3 {
         .add(this.YVec.multiply(point.Y)).add(this.ZVec.multiply(point.Z));
     }
 
+    public multiply(transform: Transform3): Transform3 {
+
+        const m11 = this.XVec.X * transform.XVec.X + this.YVec.X * transform.XVec.Y +
+            this.ZVec.X * transform.XVec.Z;
+        const m12 = this.XVec.X * transform.YVec.X + this.YVec.X * transform.YVec.Y +
+            this.ZVec.X * transform.YVec.Z;
+        const m13 = this.XVec.X * transform.ZVec.X + this.YVec.X * transform.ZVec.Y +
+            this.ZVec.X * transform.ZVec.Z;
+        const m14 = this.XVec.X * transform.Origin.X + this.YVec.X * transform.Origin.Y +
+            this.ZVec.X * transform.Origin.Z + this.Origin.X;
+        const m21 = this.XVec.Y * transform.XVec.X + this.YVec.Y * transform.XVec.Y +
+            this.ZVec.Y * transform.XVec.Z;
+        const m22 = this.XVec.Y * transform.YVec.X + this.YVec.Y * transform.YVec.Y +
+            this.ZVec.Y * transform.YVec.Z;
+        const m23 = this.XVec.Y * transform.ZVec.X + this.YVec.Y * transform.ZVec.Y +
+            this.ZVec.Y * transform.ZVec.Z;
+        const m24 = this.XVec.Y * transform.Origin.X + this.YVec.Y * transform.Origin.Y +
+            this.ZVec.Y * transform.Origin.Z + this.Origin.Y;
+        const m31 = this.XVec.Z * transform.XVec.X + this.YVec.Z * transform.XVec.Y +
+            this.ZVec.Z * transform.XVec.Z;
+        const m32 = this.XVec.Z * transform.YVec.X + this.YVec.Z * transform.YVec.Y +
+            this.ZVec.Z * transform.YVec.Z;
+        const m33 = this.XVec.Z * transform.ZVec.X + this.YVec.Z * transform.ZVec.Y +
+            this.ZVec.Z * transform.ZVec.Z;
+        const m34 = this.XVec.Z * transform.Origin.X + this.YVec.Z * transform.Origin.Y +
+            this.ZVec.Z * transform.Origin.Z + this.Origin.Z;
+
+        this.XVec.set(m11, m21, m31);
+        this.YVec.set(m12, m22, m32);
+        this.ZVec.set(m13, m23, m33);
+        this.Origin.set(m14, m24, m34);
+
+        return this;
+    }
+
     public copy(transform: Transform3): void {
 
         this.Origin = transform.Origin.clone();

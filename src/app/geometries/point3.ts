@@ -15,6 +15,12 @@ export class Point3 {
         return new Vector3(point2.X - point1.X, point2.Y - point1.Y, point2.Z - point1.Z);
     }
 
+    public set(x: number, y: number, z: number) {
+        this.X = x;
+        this.Y = y;
+        this.Z = z;
+    }
+
     public add(vector: Vector3): Point3 {
         this.X += vector.X;
         this.Y += vector.Y;

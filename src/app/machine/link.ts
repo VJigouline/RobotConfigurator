@@ -85,6 +85,8 @@ export class Link {
     private parent: Link;
     private children = new Array<Link>();
     private dynamicTransform = new Transform3();
+    private baseWorld = new Transform3();
+    private attachmentWorld = new Transform3();
 
     constructor(link?: Link) {
         if (!link) { return; }
@@ -149,6 +151,12 @@ export class Link {
                 console.error(`Link type ${this.Type} is not supported.`);
                 break;
         }
+
+        this.updateWorldTransforms();
+    }
+
+    private updateWorldTransforms(): void {
+
     }
 
     private updateArmTransform(): void {
