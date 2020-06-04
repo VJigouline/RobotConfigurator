@@ -156,7 +156,17 @@ export class Link {
     }
 
     private updateWorldTransforms(): void {
+        if (this.Parent) {
+            this.baseWorld.copy(this.Parent.attachmentWorld.clone()
+            .multiply(this.dynamicTransform).multiply(this.Base.Inverted));
+        } else {
+            this.baseWorld.copy(this.dynamicTransform.clone().multiply(this.Base.Inverted));
+        }
+        this.attachmentWorld = this.baseWorld.clone().multiply(this.Attachment);
 
+        this.Children.forEach(element => {
+            element.updateWorldTransforms();
+        });
     }
 
     private updateArmTransform(): void {
