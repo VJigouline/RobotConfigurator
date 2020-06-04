@@ -130,8 +130,8 @@ export class Transform3 {
     }
 
     public point3(point: Point3): Point3 {
-        return this.Origin.clone().add(this.XVec.multiply(point.X))
-        .add(this.YVec.multiply(point.Y)).add(this.ZVec.multiply(point.Z));
+        return this.Origin.clone().add(this.XVec.clone().multiply(point.X))
+        .add(this.YVec.clone().multiply(point.Y)).add(this.ZVec.clone().multiply(point.Z));
     }
 
     public multiply(transform: Transform3): Transform3 {

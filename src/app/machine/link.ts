@@ -82,11 +82,12 @@ export class Link {
         return 'static';
     }
 
+    public baseWorld = new Transform3();
+    public attachmentWorld = new Transform3();
+
     private parent: Link;
     private children = new Array<Link>();
     private dynamicTransform = new Transform3();
-    private baseWorld = new Transform3();
-    private attachmentWorld = new Transform3();
 
     constructor(link?: Link) {
         if (!link) { return; }
@@ -122,22 +123,30 @@ export class Link {
         if (link.Direction) {
             if (Array.isArray(link.Direction)) {
                 const d = link.Direction;
-                link.Direction = new Vector3(d.X, d.Y, d.Z);
+                this.Direction = new Vector3(d[0], d[1], d[2]);
             } else {
-                link.Direction = link.Direction.clone();
+                this.Direction = link.Direction.clone();
             }
         } else {
-            link.Direction = this.defaultDirection();
+            this.Direction = this.defaultDirection();
         }
         if (link.parent) { this.parent = link.parent; }
         if (link.children) { this.children = link.children; }
     }
 
     public defaultDirection(): Vector3 {
+
+        switch (this.Type) {
+            case LinkType.LINEAR_JOINT:
+                return Vector3.DirX;
+            case LinkType.STATIC:
+                return undefined;
+        }
+
         return Vector3.DirZ;
     }
 
-    public updateDynamicTransform(): void {
+    public updateDynamicTransform(world: boolean): void {
         switch (this.Type) {
             case LinkType.ARM:
                 this.updateArmTransform();
@@ -152,7 +161,11 @@ export class Link {
                 break;
         }
 
-        this.updateWorldTransforms();
+        this.Children.forEach(element => {
+            element.updateDynamicTransform(false);
+        });
+
+        if (world) { this.updateWorldTransforms(); }
     }
 
     private updateWorldTransforms(): void {
@@ -162,7 +175,7 @@ export class Link {
         } else {
             this.baseWorld.copy(this.dynamicTransform.clone().multiply(this.Base.Inverted));
         }
-        this.attachmentWorld = this.baseWorld.clone().multiply(this.Attachment);
+        this.attachmentWorld = this.baseWorld.clone().multiply(this.Attachment).multiply(this.Base.Inverted);
 
         this.Children.forEach(element => {
             element.updateWorldTransforms();

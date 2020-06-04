@@ -664,6 +664,8 @@ export class ThreeSceneService {
   public addMachine(machine: Machine): void {
     if (!machine) { return; }
 
+    if (machine.MainChain) { machine.MainChain.updateDynamicTransform(true); }
+    if (machine.TableChain) { machine.TableChain.updateDynamicTransform(true); }
     for (const l of machine.Links) {
       l.defaultObject = new LinkHelper(l, 1, this.camera);
       this.scene.children.push(l.defaultObject);

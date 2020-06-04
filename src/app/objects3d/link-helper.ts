@@ -63,12 +63,12 @@ export class LinkHelper extends THREE.Object3D {
     }
 
     private create3DObjects(): void {
-        let th = new TransformHelper(this.link.Base, 2 * this.helperScale, this.camera);
+        let th = new TransformHelper(this.link.baseWorld, 2 * this.helperScale, this.camera);
         this.transformBase = th;
         th.name = 'Base';
         th.parent = this;
         this.children.push(th);
-        th = new TransformHelper(this.link.Attachment, 2 * this.helperScale, this.camera);
+        th = new TransformHelper(this.link.attachmentWorld, 2 * this.helperScale, this.camera);
         this.transformAttachment = th;
         th.name = 'Attachment';
         th.parent = this;
