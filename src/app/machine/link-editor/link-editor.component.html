@@ -105,7 +105,16 @@
                     [(ngModel)] = "link.Link.Weight"
                     >
                 </mat-form-field>
-            </ng-container>
+                <div class="row">
+                    <div class="col label">
+                    Position {{Link.Link.Position}}
+                    <mat-slider [min]="MinPosition" [max]="MaxPosition" [step]="PositionStep"
+                    (input)="onPositionChanged($event)"
+                    [(value)]="Link.Link.Position"
+                    ></mat-slider>
+                    </div>
+                </div>
+                </ng-container>
             <div class="full-width">
                 <app-transform-editor
                     Label="Base transform"

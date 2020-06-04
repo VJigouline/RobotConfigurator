@@ -5,6 +5,7 @@ import { Machine } from '../machine';
 import { MatSelectChange } from '@angular/material/select';
 import { LinkType, LinkState } from '../link-type.enum';
 import { Transform3 } from '../../geometries/transform3';
+import { MatSliderChange } from '@angular/material/slider';
 
 enum LinkClass {
   TABLE = 'Table',
@@ -72,6 +73,34 @@ export class LinkEditorComponent implements OnInit {
     return this.links;
   }
 
+  get MinPosition(): number {
+    if (this.Link.Link.Minimum) { return this.Link.Link.Minimum; }
+    switch (this.Link.Link.Type) {
+      case LinkType.LINEAR_JOINT:
+        return -100;
+      case LinkType.ARM:
+        return -180;
+    }
+
+    return 0;
+  }
+
+  get MaxPosition(): number {
+    if (this.Link.Link.Maximum) { return this.Link.Link.Maximum; }
+    switch (this.Link.Link.Type) {
+      case LinkType.LINEAR_JOINT:
+        return 100;
+      case LinkType.ARM:
+        return 180;
+    }
+
+    return 0;
+  }
+
+  get PositionStep(): number {
+    return (this.MaxPosition - this.MinPosition) / 100;
+  }
+
   get isLinearOrRotary(): boolean {
     return this.link && (this.link.Link.Type === LinkType.LINEAR_JOINT ||
       this.link.Link.Type === LinkType.ARM);
@@ -120,4 +149,11 @@ export class LinkEditorComponent implements OnInit {
     this.link.Link.Base.copy(this.link.Link.Parent.Attachment);
     this.changeLink.emit(this.link.Link);
   }
+
+  public onPositionChanged(event: MatSliderChange): void {
+    this.Link.Link.Position = event.value;
+    this.Link.Link.updateDynamicTransform(true);
+    this.changeLink.emit(this.link.Link);
+  }
+
 }

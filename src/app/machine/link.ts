@@ -185,11 +185,11 @@ export class Link {
     private updateArmTransform(): void {
         this.dynamicTransform.copy(Transform3.Rotation(
             this.Direction.X, this.Direction.Y, this.Direction.Z,
-            Math.PI * (this.Position + this.Offset) / 180));
+            Math.PI * (this.Position + (this.Offset ? this.Offset : 0)) / 180));
     }
 
     private updateLinearTransform(): void {
-        const v = this.Direction.multiply(this.Position + this.Offset);
+        const v = this.Direction.clone().multiply(this.Position + (this.Offset ? this.Offset : 0));
         this.dynamicTransform.copy(Transform3.Translation(v.X, v.Y, v.Z));
     }
 
