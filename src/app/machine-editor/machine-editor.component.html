@@ -21,7 +21,6 @@
                 class="chain-list"
                 (cdkDropListDropped)="onMainChainDropped($event)">
                 <div class="link-box" *ngFor="let item of MainChain" cdkDrag
-                    (cdkDragStarted)="onMainChainStarted($event)"
                 ><b>{{item.Name}}</b>
                     <i>{{item.ID}} <u>{{item.TypeName}}</u></i></div>
               </div>

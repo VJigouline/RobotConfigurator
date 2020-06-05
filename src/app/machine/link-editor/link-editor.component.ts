@@ -1,11 +1,13 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Link } from '../link';
+import { Link, Model } from '../link';
 import { MachineService } from '../machine.service';
 import { Machine } from '../machine';
 import { MatSelectChange } from '@angular/material/select';
 import { LinkType, LinkState } from '../link-type.enum';
 import { Transform3 } from '../../geometries/transform3';
 import { MatSliderChange } from '@angular/material/slider';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { ThreeSceneService } from '../../three-scene.service';
 
 enum LinkClass {
   TABLE = 'Table',
@@ -106,6 +108,25 @@ export class LinkEditorComponent implements OnInit {
       this.link.Link.Type === LinkType.ARM);
   }
 
+  get FreeModels(): Model[] {
+    const ret = new Array<Model>();
+
+    for (const m of this.sceneService.models) {
+      if (m.Parent) { continue; }
+      ret.push(m);
+    }
+
+    return ret;
+  }
+
+  get Models(): Model[] {
+    let ret = new Array<Model>();
+
+    if (this.Link) { ret = this.Link.Link.models; }
+
+    return ret;
+  }
+
   link: LinkDescription;
   links: LinkDescription[];
   prevMachine: Machine;
@@ -127,7 +148,8 @@ export class LinkEditorComponent implements OnInit {
   ];
 
   constructor(
-    public machineService: MachineService
+    public machineService: MachineService,
+    private sceneService: ThreeSceneService
   ) { }
 
   ngOnInit(): void {
@@ -153,6 +175,25 @@ export class LinkEditorComponent implements OnInit {
   public onPositionChanged(event: MatSliderChange): void {
     this.Link.Link.Position = event.value;
     this.Link.Link.updateDynamicTransform(true);
+    this.changeLink.emit(this.link.Link);
+  }
+
+  onModelsDropped(event: CdkDragDrop<Model[]>): void {
+    if (!this.Link) { return; }
+    const m = this.FreeModels[event.previousIndex];
+    this.Link.Link.models.push(m);
+    m.Parent = this.Link.Link;
+    m.parentID = this.Link.Link.ID;
+    this.changeLink.emit(this.link.Link);
+  }
+
+  onFreeModelsDropped(event: CdkDragDrop<Model[]>): void {
+    const m = this.Link.Link.models[event.previousIndex];
+    this.Link.Link.models.splice(event.previousIndex);
+    m.Parent = undefined;
+    m.parentID = undefined;
+    m.object.matrixAutoUpdate = false;
+    m.object.matrix.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
     this.changeLink.emit(this.link.Link);
   }
 

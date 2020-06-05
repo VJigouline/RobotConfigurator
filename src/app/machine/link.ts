@@ -3,6 +3,7 @@ import { Transform3 } from '../geometries/transform3';
 import { Vector3 } from '../geometries/vector3';
 import { LinkHelper } from '../objects3d/link-helper';
 import { v4 as uuid } from 'uuid';
+import * as THREE from 'three';
 
 export class ModelExport {
     Parent: string;
@@ -88,7 +89,7 @@ export class Link {
     public set Children(value: Link[]) { this.children = value; }
 
     public defaultObject: LinkHelper;
-    public models: Model[];
+    public models = new Array<Model>();
 
     public get TypeName(): string {
 
@@ -218,5 +219,20 @@ export class Link {
 
     public toJSON(): LinkExport {
         return new LinkExport(this);
+    }
+
+    public updateModels(): void {
+        this.defaultObject.updateHelper();
+        for (const m of this.models) {
+            if (!m.object) { continue; }
+            m.object.matrixAutoUpdate = false;
+            const tra = this.baseWorld;
+            m.object.matrix.set(
+                tra.XVec.X, tra.YVec.X, tra.ZVec.X, tra.Origin.X,
+                tra.XVec.Y, tra.YVec.Y, tra.ZVec.Y, tra.Origin.Y,
+                tra.XVec.Z, tra.YVec.Z, tra.ZVec.Z, tra.Origin.Z,
+                0, 0, 0, 1
+            );
+        }
     }
 }

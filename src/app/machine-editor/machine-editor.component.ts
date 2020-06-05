@@ -91,11 +91,6 @@ export class MachineEditorComponent implements OnInit {
     }
   }
 
-  onMainChainStarted(event: CdkDragStart): void {
-    console.error('drag started.');
-  }
-
-
   onTableChainDropped(event: CdkDragDrop<Link[]>): void {
     const main = this.TableChain;
     const free = this.FreeLinks;

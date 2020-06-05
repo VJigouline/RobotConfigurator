@@ -130,4 +130,33 @@
             >Copy base from parent attachment</button>                   
         </div>
     </div>
+    <div cdkDropListGroup>
+        <div class="chain-container">
+          <h2>Models</h2>
+      
+          <div
+            cdkDropList
+            [cdkDropListData]="Models"
+            class="chain-list"
+            (cdkDropListDropped)="onModelsDropped($event)">
+            <div class="link-box" *ngFor="let item of Models" cdkDrag
+            >{{item.ID}}</div>
+          </div>
+        </div>
+      
+        <div class="chain-container">
+          <h2>Free models</h2>
+      
+          <div
+            cdkDropList
+            cdkDropListSortingDisabled
+            [cdkDropListData]="FreeModels"
+            class="chain-list"
+            (cdkDropListDropped)="onFreeModelsDropped($event)">
+            <div class="link-box" *ngFor="let item of FreeModels" cdkDrag>
+                {{item.ID}}
+            </div>
+          </div>
+        </div>
+    </div>
 </mat-card>

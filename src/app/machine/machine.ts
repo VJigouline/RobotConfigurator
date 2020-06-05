@@ -1,4 +1,4 @@
-import { Link, Model } from './link';
+import { Link, Model, ModelExport } from './link';
 
 export class MachineExport2 {
     public MainChain: string[];
@@ -9,7 +9,7 @@ export class MachineExport {
     public Name: string;
     public Machine: MachineExport2;
     public Links: Link[];
-    public Models: Model[];
+    public Models: ModelExport[];
 
     constructor(machine: Machine) {
         if (!machine) { return; }
@@ -32,7 +32,14 @@ export class MachineExport {
             }
         }
         this.Links = machine.Links;
-        if (machine.Models) { this.Models = machine.Models; }
+        for (const l of machine.Links) {
+        }
+        if (machine.Models) {
+            this.Models = new Array<ModelExport>();
+            for (const m of machine.Models) {
+                this.Models.push(new ModelExport(m));
+            }
+        }
     }
 }
 

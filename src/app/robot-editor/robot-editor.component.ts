@@ -129,8 +129,9 @@ export class RobotEditorComponent implements OnInit, AfterViewInit {
   }
 
   onChangeLink(event: Link): void {
+    event.updateDynamicTransform(true);
     while (event) {
-      event.defaultObject.updateHelper();
+      event.updateModels();
       event = event.Children.length ? event.Children[0] : null;
     }
     this.threeView.Render();
