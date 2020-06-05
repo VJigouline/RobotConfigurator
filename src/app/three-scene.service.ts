@@ -18,6 +18,7 @@ import { Materials } from './materials/materials';
 import { Polygon3 } from './geometries/polygon3';
 import { Machine } from './machine/machine';
 import { LinkHelper } from './objects3d/link-helper';
+import { Model } from './machine/link';
 
 interface ViewerFile extends File {
   relativePath: string;
@@ -34,8 +35,8 @@ interface DraggingChangedEvent {
 
 type CallbackFinished = () => void;
 type ReaderDelegate = (blob: ViewerFile, file: NgxFileDropEntry,
-                       files: NgxFileDropEntry[], scene: THREE.Scene, finished: CallbackFinished) => void;
-type CompoundReader = (blob: ViewerFile, fileMap: Map<string, File>, scene: THREE.Scene, finished: CallbackFinished) => void;
+                       files: NgxFileDropEntry[], service: ThreeSceneService, finished: CallbackFinished) => void;
+type CompoundReader = (blob: ViewerFile, fileMap: Map<string, File>, service: ThreeSceneService, finished: CallbackFinished) => void;
 type ContentSetter = (scene: THREE.Scene, sceneGLTF: THREE.Scene, clips: THREE.AnimationClip[]) => void;
 
 @Injectable({
@@ -51,6 +52,7 @@ export class ThreeSceneService {
   public transformControl: TransformControls;
   private hidingTransform: number;
   public orbitControls: TrackballControls;
+  public models = new Array<Model>();
 
   constructor(
     private lightsLibraryService: LightsLibraryService
@@ -67,6 +69,7 @@ export class ThreeSceneService {
 
   public getNewScene(): THREE.Scene {
 
+    this.models = new Array<Model>();
     this.scene = new THREE.Scene();
     this.addCurrentLights(this.scene);
     if (this.transformControl) { this.scene.add(this.transformControl); }
@@ -170,14 +173,14 @@ export class ThreeSceneService {
       vf.contentSetter = contentSetter;
       vf.service = this;
       readerDelegate.bind(this);
-      readerDelegate(vf, file, files, this.scene, finished);
+      readerDelegate(vf, file, files, this, finished);
     };
     filereader.bind(this);
     fileEntry.file(filereader);
   }
 
   public addColladaFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
-                        scene: THREE.Scene, finished: CallbackFinished): void {
+                        service: ThreeSceneService, finished: CallbackFinished): void {
     const rootPath = file.relativePath.replace(file.fileEntry.name, '');
     const readers: Promise<ViewerFile>[] = [];
     const fileMap = new Map<string, File>();
@@ -202,11 +205,12 @@ export class ThreeSceneService {
       for (const f of fs) {
         fileMap[f.relativePath] = f;
       }
-      blob.reader(blob, fileMap, scene, finished);
+      blob.reader(blob, fileMap, service, finished);
     });
   }
 
-  private readColladaFile(blob: ViewerFile, fileMap: Map<string, File>, scene: THREE.Scene, finished: CallbackFinished): void {
+  private readColladaFile(blob: ViewerFile, fileMap: Map<string, File>,
+                          service: ThreeSceneService, finished: CallbackFinished): void {
 
     const fileUrl = URL.createObjectURL(blob);
     const rootPath = blob.relativePath.replace(blob.name, '');
@@ -242,7 +246,7 @@ export class ThreeSceneService {
     loader.load(fileUrl, (file) => {
       const sceneCollada = file.scene;
       const clips = file.animations || [];
-      this.contentSetter(scene, sceneCollada, clips);
+      this.contentSetter(service.scene, sceneCollada, clips);
 
       // blobURLs.forEach(URL.revokeObjectURL);
       finished();
@@ -250,7 +254,7 @@ export class ThreeSceneService {
   }
 
   public addGLTFFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
-                     scene: THREE.Scene, finished: CallbackFinished): void {
+                     service: ThreeSceneService, finished: CallbackFinished): void {
     const rootPath = file.relativePath.replace(file.fileEntry.name, '');
     const readers: Promise<ViewerFile>[] = [];
     const fileMap = new Map<string, File>();
@@ -275,11 +279,12 @@ export class ThreeSceneService {
       for (const f of fs) {
         fileMap[f.relativePath] = f;
       }
-      blob.reader(blob, fileMap, scene, finished);
+      blob.reader(blob, fileMap, service, finished);
     });
   }
 
-  private readGLTFFile(blob: ViewerFile, fileMap: Map<string, File>, scene: THREE.Scene, finished: CallbackFinished): void {
+  private readGLTFFile(blob: ViewerFile, fileMap: Map<string, File>, 
+                       service: ThreeSceneService, finished: CallbackFinished): void {
 
     const fileUrl = URL.createObjectURL(blob);
     const rootPath = blob.relativePath.replace(blob.name, '');
@@ -319,7 +324,7 @@ export class ThreeSceneService {
     loader.load(fileUrl, (gltf) => {
       const sceneGLTF = gltf.scene || gltf.scenes[0];
       const clips = gltf.animations || [];
-      this.contentSetter(scene, sceneGLTF, clips);
+      this.contentSetter(service.scene, sceneGLTF, clips);
 
       blobURLs.forEach(URL.revokeObjectURL);
       finished();
@@ -334,32 +339,35 @@ export class ThreeSceneService {
   private setContent(scene: THREE.Scene, sceneGLTF: THREE.Scene,
                      clips: THREE.AnimationClip[]): void {
 
-      const box = new THREE.Box3().setFromObject(sceneGLTF);
-      const size = box.getSize(new THREE.Vector3()).length();
-      const center = box.getCenter(new THREE.Vector3());
-
       scene.add(sceneGLTF);
   }
 
-  public addJSONFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene): void {
+  public addJSONFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], 
+                     service: ThreeSceneService): void {
     console.log('JSON file read.');
     console.warn('JSON not implemented.');
   }
 
   public addSTLFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
-                    scene: THREE.Scene, finished: CallbackFinished): void {
+                    service: ThreeSceneService, finished: CallbackFinished): void {
     const url = URL.createObjectURL(blob);
     const loader = new STLLoader();
     const material = blob.service.material;
-    loader.load(url, geometry => {
+    const reader = geometry => {
       const mesh = new THREE.Mesh( geometry, material );
-      scene.add(mesh);
+      const model = new Model();
+      model.ID = file.relativePath;
+      model.object = mesh;
+      service.models.push(model);
+      service.scene.add(mesh);
       finished();
-    });
+    };
+    reader.bind(this);
+    loader.load(url, reader);
   }
 
   public addPolygonsFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
-                         scene: THREE.Scene, finished: CallbackFinished): void {
+                         service: ThreeSceneService, finished: CallbackFinished): void {
     const fileReader = new FileReader();
 
     const onload = () => {
@@ -403,7 +411,7 @@ export class ThreeSceneService {
           geometry.applyMatrix4(transform);
 
           const mesh = new THREE.Mesh(geometry, blob.service.material);
-          scene.add(mesh);
+          service.scene.add(mesh);
           finished();
         };
         for (const p of polygons) {
@@ -496,6 +504,9 @@ export class ThreeSceneService {
 
     if (scene == null) { scene = this.scene; }
     if (scene == null) { return; }
+
+    const ind = this.models.findIndex(x => x.object === object);
+    if (ind >= 0) { this.models.splice(ind); }
 
     const index = scene.children.indexOf(object);
     if (index > -1) {
@@ -669,6 +680,16 @@ export class ThreeSceneService {
     for (const l of machine.Links) {
       l.defaultObject = new LinkHelper(l, 1, this.camera);
       this.scene.children.push(l.defaultObject);
+      for (const m of machine.Models) {
+        if (l.ID === m.parentID) {
+          const model = this.models.find(x => x.ID === m.parentID);
+          if (model) {
+            l.models.push(model);
+            m.Parent = l;
+            model.Parent = l;
+          }
+        }
+      }
     }
 
     this.Render();

@@ -4,8 +4,32 @@ import { Vector3 } from '../geometries/vector3';
 import { LinkHelper } from '../objects3d/link-helper';
 import { v4 as uuid } from 'uuid';
 
-import * as THREE from 'three';
-import { Point3 } from '../geometries/point3';
+export class ModelExport {
+    Parent: string;
+    ID: string;
+    Material: string;
+
+    constructor(model: Model) {
+        if (model.Parent) { this.Parent = model.Parent.ID; }
+        if (model.ID) { this.ID = model.ID; }
+        if (model.Material) { this.Material = model.Material; }
+    }
+}
+
+export class Model {
+    Parent: Link;
+    ID: string;
+    Material: string;
+    object: THREE.Object3D;
+    parentID: string;
+
+    constructor(model?: ModelExport) {
+        if (!model) { return; }
+        if (model.ID) { this.ID = model.ID; }
+        if (model.Material) { this.Material = model.Material; }
+        if (model.Parent) { this.parentID = model.Parent; }
+    }
+}
 
 export class LinkExport {
     public ID: string;
@@ -50,7 +74,6 @@ export class Link {
     public State: LinkState;
     public Base = new Transform3();
     public Attachment = new Transform3();
-    public Model: string;
     public Home: number;
     public Minimum: number;
     public Maximum: number;
@@ -65,6 +88,7 @@ export class Link {
     public set Children(value: Link[]) { this.children = value; }
 
     public defaultObject: LinkHelper;
+    public models: Model[];
 
     public get TypeName(): string {
 
@@ -113,7 +137,6 @@ export class Link {
                 this.Attachment = link.Attachment.clone();
             }
         }
-        if (link.Model) { this.Model = link.Model; }
         if (link.Home) { this.Home = link.Home; }
         if (link.Minimum) { this.Minimum = link.Minimum; }
         if (link.Maximum) { this.Maximum = link.Maximum; }

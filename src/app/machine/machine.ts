@@ -1,4 +1,4 @@
-import { Link } from './link';
+import { Link, Model } from './link';
 
 export class MachineExport2 {
     public MainChain: string[];
@@ -9,6 +9,7 @@ export class MachineExport {
     public Name: string;
     public Machine: MachineExport2;
     public Links: Link[];
+    public Models: Model[];
 
     constructor(machine: Machine) {
         if (!machine) { return; }
@@ -31,6 +32,7 @@ export class MachineExport {
             }
         }
         this.Links = machine.Links;
+        if (machine.Models) { this.Models = machine.Models; }
     }
 }
 
@@ -39,6 +41,7 @@ export class Machine {
     public Links = new Array<Link>();
     public MainChain: Link;
     public TableChain: Link;
+    public Models = new Array<Model>();
 
     public get FreeLinks(): Link[] {
         const ret = new Array<Link>();

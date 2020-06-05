@@ -39,14 +39,6 @@
             <div class="row">
                 <div class="col">
                     <mat-form-field class="full-width">
-                        <mat-label>Model name</mat-label>
-                        <input [(ngModel)]="Link.Link.Model" matInput placeholder="Enter model name">
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <mat-form-field class="full-width">
                     <mat-label>Select link type</mat-label>
                     <mat-select [(value)]="Link.Link.Type">
                         <mat-option *ngFor="let type of linkTypes" [value]="type.type">{{type.name}}</mat-option>

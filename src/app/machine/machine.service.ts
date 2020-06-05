@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ThreeSceneService } from '../three-scene.service';
 import { Machine, MachineExport } from './machine';
-import { } from '../objects3d/link-helper';
+import { Model } from './link';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +9,7 @@ import { } from '../objects3d/link-helper';
 export class MachineService {
 
   public machine = new Machine();
+  public models = new Array<Model>();
 
   constructor(
     private sceneService: ThreeSceneService
