@@ -17,10 +17,12 @@
             (selectedTabChange)="onSelectedTabChange($event)"
             >
             <mat-tab label="Machine" class="tabheader">
-                <app-machine-editor></app-machine-editor>
+                <app-machine-editor
+                    (changeMachine)="onMachineChanged($event)"
+                ></app-machine-editor>
             </mat-tab>
             <mat-tab label="Links" class="tabheader">
-                <app-link-editor
+                <app-link-editor #linkEditor
                     (changeLink)="onChangeLink($event)"
                 ></app-link-editor>
             </mat-tab>

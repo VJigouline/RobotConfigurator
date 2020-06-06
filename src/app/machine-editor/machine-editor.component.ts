@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MachineService } from '../machine/machine.service';
 import { Link } from '../machine/link';
 import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragStart} from '@angular/cdk/drag-drop';
 import { Machine } from '../machine/machine';
 import { saveAs } from 'file-saver';
+import { LinkHelper } from '../objects3d/link-helper';
+import { ThreeSceneService } from '../three-scene.service';
 
 @Component({
   selector: 'app-machine-editor',
@@ -11,6 +13,8 @@ import { saveAs } from 'file-saver';
   styleUrls: ['./machine-editor.component.scss']
 })
 export class MachineEditorComponent implements OnInit {
+
+  @Output() changeMachine = new EventEmitter<Machine>();
 
   get MachineName(): string {
     return this.machineService.machine ? this.machineService.machine.Name : '';
@@ -56,7 +60,8 @@ export class MachineEditorComponent implements OnInit {
   }
 
   constructor(
-    private machineService: MachineService
+    private machineService: MachineService,
+    private sceneService: ThreeSceneService
   ) { }
 
   ngOnInit(): void {
@@ -89,6 +94,7 @@ export class MachineEditorComponent implements OnInit {
       l.Parent = null;
       l.Children = [];
     }
+    this.changeMachine.emit(this.machineService.machine);
   }
 
   onTableChainDropped(event: CdkDragDrop<Link[]>): void {
@@ -118,6 +124,7 @@ export class MachineEditorComponent implements OnInit {
       l.Parent = null;
       l.Children = [];
     }
+    this.changeMachine.emit(this.machineService.machine);
   }
 
   onFreeLinksDropped(event: CdkDragDrop<Link[]>): void {
@@ -141,7 +148,9 @@ export class MachineEditorComponent implements OnInit {
     if (!this.machineService.machine) {
       this.machineService.machine = new Machine();
     }
-    this.machineService.machine.Links.push(new Link());
+    const l = new Link();
+    l.defaultObject = new LinkHelper(l, 1, this.sceneService.camera);
+    this.machineService.machine.Links.push(l);
   }
 
   onSave(): void {

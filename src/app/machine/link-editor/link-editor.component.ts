@@ -197,4 +197,8 @@ export class LinkEditorComponent implements OnInit {
     this.changeLink.emit(this.link.Link);
   }
 
+  public updateMachine(): void {
+    this.links = null;
+  }
+
 }

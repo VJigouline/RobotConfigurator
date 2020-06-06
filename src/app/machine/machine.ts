@@ -88,6 +88,7 @@ export class Machine {
                 parent = l;
             }
         }
+        parent = null;
         if (machine.Machine && machine.Machine.TableChain) {
             for (const id of machine.Machine.TableChain) {
                 let l = this.Links.find(lnk => lnk.ID === id);

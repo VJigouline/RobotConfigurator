@@ -8,6 +8,8 @@ import { Light } from '../lights/light';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MachineService } from '../machine/machine.service';
 import { Link } from '../machine/link';
+import { Machine } from '../machine/machine';
+import { LinkEditorComponent } from '../machine/link-editor/link-editor.component';
 
 @Component({
   selector: 'app-robot-editor',
@@ -24,6 +26,9 @@ export class RobotEditorComponent implements OnInit, AfterViewInit {
 
   @ViewChild('ThreeJSView')
   private threeView: SceneViewComponent;
+
+  @ViewChild('linkEditor')
+  private linkEditor: LinkEditorComponent;
 
   constructor(
     private sceneService: ThreeSceneService,
@@ -132,5 +137,9 @@ export class RobotEditorComponent implements OnInit, AfterViewInit {
     event.updateDynamicTransform(true);
     event.updateModels();
     this.threeView.Render();
+  }
+
+  onMachineChanged(event: Machine): void {
+    this.linkEditor.updateMachine();
   }
 }
