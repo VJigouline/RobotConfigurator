@@ -682,7 +682,7 @@ export class ThreeSceneService {
       this.scene.children.push(l.defaultObject);
       for (const m of machine.Models) {
         if (l.ID === m.parentID) {
-          const model = this.models.find(x => x.ID === m.parentID);
+          const model = this.models.find(x => x.ID === m.ID);
           if (model) {
             l.models.push(model);
             m.Parent = l;
@@ -690,6 +690,15 @@ export class ThreeSceneService {
           }
         }
       }
+    }
+
+    if (machine.MainChain) {
+      machine.MainChain.updateDynamicTransform(true);
+      machine.MainChain.updateModels();
+    }
+    if (machine.TableChain) {
+      machine.TableChain.updateDynamicTransform(true);
+      machine.TableChain.updateModels();
     }
 
     this.Render();

@@ -56,33 +56,33 @@ export class TransformEditorComponent implements OnInit {
 
   public onXChange(): void {
     if (this.lockY) {
-       this.Transform = Transform3.YX(this.Transform.Origin,
-        this.Transform.YVec, this.Transform.XVec);
+       this.Transform.copy(Transform3.YX(this.Transform.Origin,
+        this.Transform.YVec, this.Transform.XVec));
     } else {
-      this.Transform = Transform3.ZX(this.Transform.Origin,
-        this.Transform.ZVec, this.Transform.XVec);
+      this.Transform.copy(Transform3.ZX(this.Transform.Origin,
+        this.Transform.ZVec, this.Transform.XVec));
     }
     this.changeTransform.emit(this.Transform);
   }
 
   public onYChange(): void {
     if (this.lockZ) {
-      this.Transform = Transform3.ZY(this.Transform.Origin,
-        this.Transform.ZVec, this.Transform.YVec);
+      this.Transform.copy(Transform3.ZY(this.Transform.Origin,
+        this.Transform.ZVec, this.Transform.YVec));
     } else {
-      this.Transform = Transform3.XY(this.Transform.Origin,
-        this.Transform.XVec, this.Transform.YVec);
+      this.Transform.copy(Transform3.XY(this.Transform.Origin,
+        this.Transform.XVec, this.Transform.YVec));
     }
     this.changeTransform.emit(this.Transform);
   }
 
   public onZChange(): void {
     if (this.lockX) {
-      this.Transform = Transform3.XZ(this.Transform.Origin,
-        this.Transform.XVec, this.Transform.ZVec);
+      this.Transform.copy(Transform3.XZ(this.Transform.Origin,
+        this.Transform.XVec, this.Transform.ZVec));
     } else {
-      this.Transform = Transform3.YZ(this.Transform.Origin,
-        this.Transform.YVec, this.Transform.ZVec);
+      this.Transform.copy(Transform3.YZ(this.Transform.Origin,
+        this.Transform.YVec, this.Transform.ZVec));
     }
     this.changeTransform.emit(this.Transform);
   }

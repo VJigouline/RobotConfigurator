@@ -33,11 +33,11 @@ export class MachineExport {
         }
         this.Links = machine.Links;
         for (const l of machine.Links) {
-        }
-        if (machine.Models) {
-            this.Models = new Array<ModelExport>();
-            for (const m of machine.Models) {
-                this.Models.push(new ModelExport(m));
+            if (l.models && l.models.length) {
+                if (!this.Models) { this.Models = new Array<ModelExport>()}
+                for (const m of l.models) {
+                    this.Models.push(new ModelExport(m));
+                }
             }
         }
     }
@@ -102,6 +102,13 @@ export class Machine {
                     this.TableChain = l;
                 }
                 parent = l;
+            }
+        }
+
+        if (machine.Models) {
+            for (const m of machine.Models) {
+                const model = new Model(m);
+                this.Models.push(model);
             }
         }
     }

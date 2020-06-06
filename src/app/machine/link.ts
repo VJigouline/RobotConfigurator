@@ -234,5 +234,11 @@ export class Link {
                 0, 0, 0, 1
             );
         }
+
+        if (this.Children) {
+            for (const c of this.Children) {
+                c.updateModels();
+            }
+        }
     }
 }
