@@ -53,6 +53,20 @@ export class MachineControlsComponent implements OnInit {
     return this.tableControls;
   }
 
+  public get ShowDefault(): boolean { return this.showDefault; }
+  public set ShowDefault(value: boolean) {
+    if (value === this.showDefault) { return; }
+
+    this.showDefault = value;
+    for (const l of this.machineService.machine.Links) {
+      if (!l.defaultObject) { continue; }
+      l.defaultObject.visible = value;
+    }
+
+    this.updateLink.emit(new Link());
+  }
+  showDefault = true;
+
   private mainControls: Link[];
   private tableControls: Link[];
 

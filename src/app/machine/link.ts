@@ -226,7 +226,7 @@ export class Link {
     }
 
     public updateModels(): void {
-        this.defaultObject.updateHelper();
+        if (this.defaultObject) { this.defaultObject.updateHelper(); }
         for (const m of this.models) {
             if (!m.object) { continue; }
             m.object.matrixAutoUpdate = false;
