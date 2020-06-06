@@ -210,13 +210,13 @@ export class Link {
         if (!this.Direction) { this.Direction = this.defaultDirection(); }
         this.dynamicTransform.copy(Transform3.Rotation(
             this.Direction.X, this.Direction.Y, this.Direction.Z,
-            Math.PI * ((this.Position ? this.Position : 0) + 
+            Math.PI * ((this.Position ? this.Position : 0) +
                 (this.Offset ? this.Offset : 0)) / 180));
     }
 
     private updateLinearTransform(): void {
         if (!this.Direction) { this.Direction = this.defaultDirection(); }
-        const v = this.Direction.clone().multiply((this.Position ? this.Position : 0) + 
+        const v = this.Direction.clone().multiply((this.Position ? this.Position : 0) +
             (this.Offset ? this.Offset : 0));
         this.dynamicTransform.copy(Transform3.Translation(v.X, v.Y, v.Z));
     }

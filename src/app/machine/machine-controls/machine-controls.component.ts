@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { MachineService } from '../machine.service';
 import { Link } from '../link';
 import { LinkType } from '../link-type.enum';
@@ -9,6 +9,7 @@ import { LinkType } from '../link-type.enum';
   styleUrls: ['./machine-controls.component.scss']
 })
 export class MachineControlsComponent implements OnInit {
+  @Output() updateLink = new EventEmitter<Link>();
 
   get MainControls(): Link[] {
     if (this.mainControls) { return this.mainControls; }
@@ -65,6 +66,10 @@ export class MachineControlsComponent implements OnInit {
   public updateControls(): void {
     this.mainControls = null;
     this.tableControls = null;
+  }
+
+  public onLinkUpdate(event: Link) {
+    this.updateLink.emit(event);
   }
 
 }

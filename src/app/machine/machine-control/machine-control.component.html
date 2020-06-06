@@ -1,0 +1,9 @@
+<div class="row">
+    <div class="col label">
+        <b>{{Link.Name}}</b> {{Link.Position}}
+        <mat-slider [min]="MinPosition" [max]="MaxPosition" [step]="PositionStep"
+        (input)="onPositionChanged($event)"
+        [(value)]="Link.Position"
+        ></mat-slider>
+    </div>
+</div>

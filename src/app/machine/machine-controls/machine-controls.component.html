@@ -8,9 +8,21 @@
         </div>
         <ng-container *ngIf="MainControls">
             <h2>Main controls</h2>
+            <div *ngFor="let l of MainControls">
+                <app-machine-control
+                    [Link]="l"
+                    (updateLink)="onLinkUpdate($event)"
+                ></app-machine-control>
+            </div>
         </ng-container>
         <ng-container *ngIf="TableControls">
             <h2>Table controls</h2>
+                <div *ngFor="let l of TableControls">
+                    <app-machine-control
+                        [Link]="l"
+                        (updateLink)="onLinkUpdate($event)"
+                    ></app-machine-control>
+                </div>
         </ng-container>
     </mat-card-content>
 </mat-card>

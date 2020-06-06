@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
@@ -18,11 +19,12 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MachineControlsComponent } from './machine-controls/machine-controls.component';
+import { MachineControlComponent } from './machine-control/machine-control.component';
 
 
 
 @NgModule({
-  declarations: [LinkEditorComponent, MachineControlsComponent],
+  declarations: [LinkEditorComponent, MachineControlsComponent, MachineControlComponent],
   imports: [
     CommonModule,
     BrowserAnimationsModule,
@@ -31,6 +33,7 @@ import { MachineControlsComponent } from './machine-controls/machine-controls.co
     FormsModule,
     MatInputModule,
     MatButtonModule,
+    MatGridListModule,
     MatExpansionModule,
     MatTabsModule,
     MatSelectModule,

@@ -34,7 +34,7 @@ export class MachineExport {
         this.Links = machine.Links;
         for (const l of machine.Links) {
             if (l.models && l.models.length) {
-                if (!this.Models) { this.Models = new Array<ModelExport>()}
+                if (!this.Models) { this.Models = new Array<ModelExport>(); }
                 for (const m of l.models) {
                     this.Models.push(new ModelExport(m));
                 }

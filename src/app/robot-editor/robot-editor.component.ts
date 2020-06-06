@@ -146,5 +146,6 @@ export class RobotEditorComponent implements OnInit, AfterViewInit {
   onMachineChanged(event: Machine): void {
     this.linkEditor.updateMachine();
     this.machineControls.updateControls();
+    this.threeView.Render();
   }
 }

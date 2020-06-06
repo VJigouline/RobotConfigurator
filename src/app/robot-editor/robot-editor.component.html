@@ -28,6 +28,7 @@
             </mat-tab>
             <mat-tab label="Controls" class="tabheader">
                 <app-machine-controls #machineControls
+                    (updateLink)="onChangeLink($event)"
                 ></app-machine-controls>
             </mat-tab>
             <mat-tab label="Scene" class="tabheader">
