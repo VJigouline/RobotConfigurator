@@ -199,7 +199,7 @@ export class Link {
         } else {
             this.baseWorld.copy(this.dynamicTransform.clone().multiply(this.Base.Inverted));
         }
-        this.attachmentWorld = this.baseWorld.clone().multiply(this.Attachment).multiply(this.Base.Inverted);
+        this.attachmentWorld.copy(this.baseWorld.clone().multiply(this.Attachment));
 
         this.Children.forEach(element => {
             element.updateWorldTransforms();
@@ -209,11 +209,13 @@ export class Link {
     private updateArmTransform(): void {
         this.dynamicTransform.copy(Transform3.Rotation(
             this.Direction.X, this.Direction.Y, this.Direction.Z,
-            Math.PI * (this.Position + (this.Offset ? this.Offset : 0)) / 180));
+            Math.PI * ((this.Position ? this.Position : 0) + 
+                (this.Offset ? this.Offset : 0)) / 180));
     }
 
     private updateLinearTransform(): void {
-        const v = this.Direction.clone().multiply(this.Position + (this.Offset ? this.Offset : 0));
+        const v = this.Direction.clone().multiply((this.Position ? this.Position : 0) + 
+            (this.Offset ? this.Offset : 0));
         this.dynamicTransform.copy(Transform3.Translation(v.X, v.Y, v.Z));
     }
 

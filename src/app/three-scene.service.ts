@@ -357,6 +357,7 @@ export class ThreeSceneService {
       const mesh = new THREE.Mesh( geometry, material );
       const model = new Model();
       model.ID = file.relativePath;
+      mesh.name = file.relativePath;
       model.object = mesh;
       service.models.push(model);
       service.scene.add(mesh);
