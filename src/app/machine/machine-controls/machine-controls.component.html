@@ -1,0 +1,16 @@
+<mat-card class="shipping-card">
+    <mat-card-header>
+        <mat-card-title>Machine controls</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div>
+            Machine name: <i>{{machineService.machine.Name}}</i>
+        </div>
+        <ng-container *ngIf="MainControls">
+            <h2>Main controls</h2>
+        </ng-container>
+        <ng-container *ngIf="TableControls">
+            <h2>Table controls</h2>
+        </ng-container>
+    </mat-card-content>
+</mat-card>

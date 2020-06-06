@@ -17,11 +17,12 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MachineControlsComponent } from './machine-controls/machine-controls.component';
 
 
 
 @NgModule({
-  declarations: [LinkEditorComponent],
+  declarations: [LinkEditorComponent, MachineControlsComponent],
   imports: [
     CommonModule,
     BrowserAnimationsModule,
@@ -41,7 +42,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     UserControlsModule
   ],
   exports: [
-    LinkEditorComponent
+    LinkEditorComponent,
+    MachineControlsComponent
   ]
 })
 export class MachineModule { }

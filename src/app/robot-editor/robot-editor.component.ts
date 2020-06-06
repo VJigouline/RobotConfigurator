@@ -10,6 +10,7 @@ import { MachineService } from '../machine/machine.service';
 import { Link } from '../machine/link';
 import { Machine } from '../machine/machine';
 import { LinkEditorComponent } from '../machine/link-editor/link-editor.component';
+import { MachineControlsComponent } from '../machine/machine-controls/machine-controls.component';
 
 @Component({
   selector: 'app-robot-editor',
@@ -29,6 +30,9 @@ export class RobotEditorComponent implements OnInit, AfterViewInit {
 
   @ViewChild('linkEditor')
   private linkEditor: LinkEditorComponent;
+
+  @ViewChild('machineControls')
+  private machineControls: MachineControlsComponent;
 
   constructor(
     private sceneService: ThreeSceneService,
@@ -141,5 +145,6 @@ export class RobotEditorComponent implements OnInit, AfterViewInit {
 
   onMachineChanged(event: Machine): void {
     this.linkEditor.updateMachine();
+    this.machineControls.updateControls();
   }
 }
