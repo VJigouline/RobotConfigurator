@@ -700,6 +700,7 @@ export class ThreeSceneService {
             m.Parent = l;
             model.Parent = l;
             if (m.Material) {
+              model.Material = m.Material;
               const mat = this.materialLibraryService.getByName(m.Material);
               if (mat) {
                 if (model.object) {
