@@ -283,7 +283,7 @@ export class ThreeSceneService {
     });
   }
 
-  private readGLTFFile(blob: ViewerFile, fileMap: Map<string, File>, 
+  private readGLTFFile(blob: ViewerFile, fileMap: Map<string, File>,
                        service: ThreeSceneService, finished: CallbackFinished): void {
 
     const fileUrl = URL.createObjectURL(blob);
@@ -342,7 +342,7 @@ export class ThreeSceneService {
       scene.add(sceneGLTF);
   }
 
-  public addJSONFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], 
+  public addJSONFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
                      service: ThreeSceneService): void {
     console.log('JSON file read.');
     console.warn('JSON not implemented.');
@@ -644,8 +644,17 @@ export class ThreeSceneService {
   public getSelectableObjects(): THREE.Object3D[] {
     const ret: THREE.Object3D[] = new Array<THREE.Object3D>();
 
-    if (!this.scene) { return ret; }
-    this.childrenSelectableObjects(this.scene.children, true, ret);
+    // if (!this.scene) { return ret; }
+    // this.childrenSelectableObjects(this.scene.children, true, ret);
+
+    if (!this.models) { return ret; }
+
+    for (const m of this.models) {
+      if (m.object) {
+        m.object.userData = m;
+        ret.push(m.object);
+      }
+    }
 
     return ret;
   }

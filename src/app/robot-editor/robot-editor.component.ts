@@ -13,6 +13,7 @@ import { LinkEditorComponent } from '../machine/link-editor/link-editor.componen
 import { MachineControlsComponent } from '../machine/machine-controls/machine-controls.component';
 import { MaterialLibrary } from '../materials/material-library';
 import { MaterialLibraryService } from '../materials/material-library.service';
+import { SceneEditorComponent } from '../scene-editor/scene-editor.component';
 
 @Component({
   selector: 'app-robot-editor',
@@ -35,6 +36,9 @@ export class RobotEditorComponent implements OnInit, AfterViewInit {
 
   @ViewChild('machineControls')
   private machineControls: MachineControlsComponent;
+
+  @ViewChild('sceneEditor')
+  private sceneEditor: SceneEditorComponent;
 
   constructor(
     private sceneService: ThreeSceneService,
@@ -123,6 +127,9 @@ export class RobotEditorComponent implements OnInit, AfterViewInit {
       case 'update':
         this.threeView.UpdateScene();
         break;
+      case 'redraw':
+        this.threeView.Render();
+        break;
     }
   }
 
@@ -137,6 +144,7 @@ export class RobotEditorComponent implements OnInit, AfterViewInit {
   }
 
   public onSelectedTabChange(event: MatTabChangeEvent): void {
+    this.sceneEditor.onSelectedTabChange(event.index);
   }
 
   onChangeLink(event: Link): void {

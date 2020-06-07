@@ -681,7 +681,7 @@ export class Material {
         this.toneMapped = material.toneMapped;
         this.transparent = material.transparent;
         this.vertexColors = material.vertexColors;
-        this.visible = material.visible;
+        this.visible = true;
     }
 
     public clone(): Material {
