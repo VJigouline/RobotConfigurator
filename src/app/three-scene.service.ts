@@ -19,6 +19,7 @@ import { Polygon3 } from './geometries/polygon3';
 import { Machine } from './machine/machine';
 import { LinkHelper } from './objects3d/link-helper';
 import { Model } from './machine/link';
+import { MaterialLibraryService } from './materials/material-library.service';
 
 interface ViewerFile extends File {
   relativePath: string;
@@ -55,7 +56,8 @@ export class ThreeSceneService {
   public models = new Array<Model>();
 
   constructor(
-    private lightsLibraryService: LightsLibraryService
+    private lightsLibraryService: LightsLibraryService,
+    private materialLibraryService: MaterialLibraryService
   ) { }
 
   public getScene(): THREE.Scene {
@@ -697,6 +699,16 @@ export class ThreeSceneService {
             l.models.push(model);
             m.Parent = l;
             model.Parent = l;
+            if (m.Material) {
+              const mat = this.materialLibraryService.getByName(m.Material);
+              if (mat) {
+                if (model.object) {
+                  if (model.object instanceof THREE.Mesh) {
+                    (model.object as THREE.Mesh).material = mat.material;
+                  }
+                }
+              }
+            }
           }
         }
       }

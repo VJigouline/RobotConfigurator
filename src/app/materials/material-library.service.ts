@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Materials } from './materials';
 import { MaterialLibrary } from './material-library';
 import DefaultLibrary from '../../assets/materials/default.json';
+import { Material } from './material';
 
 @Injectable({
   providedIn: 'root'
@@ -70,5 +71,15 @@ export class MaterialLibraryService {
     for (const materials of library.materials) {
       this.library.materials.push(materials);
     }
+  }
+
+  public getByName(name: string): Material {
+
+    for (const ms of this.Library.materials) {
+      const m = ms.materials.find(x => x.name === name);
+      if (m) { return m; }
+    }
+
+    return null;
   }
 }
