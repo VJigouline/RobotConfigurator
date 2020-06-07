@@ -11,6 +11,8 @@ import { Link } from '../machine/link';
 import { Machine } from '../machine/machine';
 import { LinkEditorComponent } from '../machine/link-editor/link-editor.component';
 import { MachineControlsComponent } from '../machine/machine-controls/machine-controls.component';
+import { MaterialLibrary } from '../materials/material-library';
+import { MaterialLibraryService } from '../materials/material-library.service';
 
 @Component({
   selector: 'app-robot-editor',
@@ -37,6 +39,7 @@ export class RobotEditorComponent implements OnInit, AfterViewInit {
   constructor(
     private sceneService: ThreeSceneService,
     private machineService: MachineService,
+    private libraryService: MaterialLibraryService,
     private elRef: ElementRef
     ) { }
 
@@ -77,14 +80,13 @@ export class RobotEditorComponent implements OnInit, AfterViewInit {
         switch (fileExtension) {
           case 'matlib':
             (f.fileEntry as FileSystemFileEntry).file((file: File) => {
-              console.error('Implementation required.');
-              // this.materialEditor.importLibrary(file);
+              this.importMaterialLibrary(file);
             });
             break;
           case 'ltslib':
             (f.fileEntry as FileSystemFileEntry).file((file: File) => {
               console.error('Implementation required.');
-              // this.lightsLirbaryEditor.importLibrary(file);
+              // this.materialEditor.importLibrary(file);
             });
             break;
           case 'mcf':
@@ -147,5 +149,27 @@ export class RobotEditorComponent implements OnInit, AfterViewInit {
     this.linkEditor.updateMachine();
     this.machineControls.updateControls();
     this.threeView.Render();
+  }
+
+  private importMaterialLibrary(file: File): void {
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      try {
+        const lib = JSON.parse(fileReader.result as string) as MaterialLibrary;
+        const l = new MaterialLibrary();
+        lib.clone = l.clone.bind(lib);
+        if (lib.current === undefined) { lib.current = 0; }
+        // this.libraryService.importLibrary(lib.clone());
+        this.libraryService.library = lib.clone();
+        console.log('Material library imported from: ' + file.name);
+      } catch (e) {
+        console.error('Failure to read materials library: ' + e);
+      }
+    };
+    fileReader.onerror = (error) => {
+      console.error('Failure to read file: ' + error);
+    };
+
+    fileReader.readAsText(file, 'UTF-8');
   }
 }

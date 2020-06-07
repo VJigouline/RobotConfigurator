@@ -107,13 +107,25 @@ export class LinkHelper extends THREE.Object3D {
     }
 
     private createStatic(): void {
+        return;
         const box = LinkHelper.box(this.link);
+        const centre = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
+        size.x += 10;
+        size.y += 10;
+        if (size.x < 100) { size.x = 100; }
+        if (size.y < 100) { size.y = 100; }
+        if (size.z < 1) { size.z = 1; }
 
         const mat = new THREE.MeshPhongMaterial({
             color: 0,
             specular: 0x111111,
             shininess: 23
         });
+
+        const g = new THREE.BoxGeometry(size.x, size.y, size.z)
+            .translate(centre.x, centre.y, centre.z);
+        const b = new THREE.Mesh(g, mat);
+        this.children.push(b);
     }
 }

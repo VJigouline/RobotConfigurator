@@ -1,5 +1,39 @@
 <mat-card class="shipping-card">
     <mat-card-header>
+        <mat-card-title>Materials</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-card class="shipping-card">
+            <mat-card-content>
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <mat-label>Select materials to assign</mat-label>
+                            <mat-select [(ngModel)]= "Materials"
+                            (selectionChange)="onSelectionChange($event)"
+                            >
+                                <mat-option *ngFor="let material of MaterialSets" [value]="material">{{material.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <mat-label>Select material to assign</mat-label>
+                            <mat-select [(ngModel)]= "Material"
+                            >
+                                <mat-option *ngFor="let material of Materials.materials" [value]="material">{{material.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </mat-card-content>
+</mat-card>
+<mat-card class="shipping-card">
+    <mat-card-header>
         <mat-card-title>Scene</mat-card-title>
     </mat-card-header>
     <mat-card-content>

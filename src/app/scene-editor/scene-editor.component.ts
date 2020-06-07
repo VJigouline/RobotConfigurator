@@ -1,7 +1,11 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ThreeSceneService } from '../three-scene.service';
+import { MaterialLibraryService } from '../materials/material-library.service';
 
 import * as THREE from 'three';
+import { Materials } from '../materials/materials';
+import { Material } from '../materials/material';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-scene-editor',
@@ -12,8 +16,23 @@ export class SceneEditorComponent implements OnInit {
 
   @Output() sceneChanged = new EventEmitter<string>();
 
+  get MaterialSets(): Materials[] {
+    return this.libraryService.Library.materials;
+  }
+  set MaterialSets(value: Materials[]) {}
+  get Materials(): Materials {
+    return this.libraryService.currentMaterials;
+  }
+  set Materials(value: Materials) {}
+  public get Material(): Material {
+    if (!this.material) { this.material = this.Materials.materials[0]; }
+    return this.material;
+  }
+  private material: Material;
+
   constructor(
     private sceneService: ThreeSceneService,
+    private libraryService: MaterialLibraryService
   ) { }
 
   ngOnInit() {
@@ -71,5 +90,15 @@ export class SceneEditorComponent implements OnInit {
     oc.target.set(centre.x, centre.y, centre.z);
     oc.update();
     this.sceneChanged.emit(name);
+  }
+
+  public onSelectionChange(change: MatSelectChange): void {
+    for (let i = 0; i < this.libraryService.Library.materials.length; ++i) {
+      if (this.libraryService.Library.materials[i] === change.value) {
+        this.libraryService.Library.current = i;
+        this.material = null;
+        break;
+      }
+    }
   }
 }
